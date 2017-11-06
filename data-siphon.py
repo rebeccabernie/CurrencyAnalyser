@@ -1,6 +1,9 @@
+#Forex data
 from forex_python.converter import CurrencyRates
+#Bitcoin data, provided by coin desk
 from forex_python.bitcoin import BtcConverter
 
+#Converters
 c = CurrencyRates()
 b = BtcConverter()
 
