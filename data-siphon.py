@@ -27,8 +27,8 @@ def siphon():
   print("Price of US Dolar in Euro: "+ usd)
   print("Price of Bitcoin in Euro: "+ btc)
 
-  #rds.set('1',usd)
-  #rds.set('2', btc)
+  rds.set('1',usd)
+  rds.set('2', btc)
 
 schedule.every(10).seconds.do(siphon)
 
