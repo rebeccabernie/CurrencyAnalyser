@@ -23,12 +23,15 @@ def siphon():
   usd = "{:.4f}".format(usd_float) 
   btc = "{:.4f}".format(btc_float) 
 
-  #Output to console
-  print("Price of US Dolar in Euro: "+ usd)
-  print("Price of Bitcoin in Euro: "+ btc)
-
+  
   rds.set('1',usd)
   rds.set('2', btc)
+
+  #Output to console
+  print("Price of US Dolar in Euro: "+ rds.get(1))
+  print("Price of Bitcoin in Euro: "+ rds.get(2))
+
+
 
 schedule.every(10).seconds.do(siphon)
 
