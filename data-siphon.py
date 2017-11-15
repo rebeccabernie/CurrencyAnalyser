@@ -36,7 +36,7 @@ def siphon():
 
 
 
-schedule.every(10).seconds.do(siphon)
+schedule.every(30).seconds.do(siphon)
 
 while 1:
     schedule.run_pending()
