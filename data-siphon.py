@@ -4,8 +4,11 @@ from forex_python.converter import CurrencyRates
 from forex_python.bitcoin import BtcConverter
 
 import time
-
 import schedule
+import os
+import redis
+
+rds = redis.from_url(os.environ.get("REDIS_URL"))
 
 def siphon():
   #Converters
@@ -13,21 +16,22 @@ def siphon():
   b = BtcConverter()
 
   #USD TO EURO
-  usd = c.get_rate('USD', 'EUR')
+  usd_float = c.get_rate('USD', 'EUR')
   #Bitcoin IN EURO
-  btc = b.get_latest_price('EUR')
+  btc_float = b.get_latest_price('EUR')
 
-  print("Price of US Dolar in Euro: ", usd)
-  print("Price of Bitcoin in Euro: ", btc)
+  usd = "{:.4f}".format(usd_float) 
+  btc = "{:.4f}".format(btc_float) 
 
+  #Output to console
+  print("Price of US Dolar in Euro: "+ usd)
+  print("Price of Bitcoin in Euro: "+ btc)
 
-schedule.every(20).seconds.do(siphon)
+  #rds.set('1',usd)
+  #rds.set('2', btc)
+
+schedule.every(10).seconds.do(siphon)
 
 while 1:
     schedule.run_pending()
     time.sleep(1)
-#attempt at timed loop
-#starttime=time.time()
-#while True:
-#  print ("tick")
-#  time.sleep(60.0 - ((time.time() - starttime) % 60.0))
