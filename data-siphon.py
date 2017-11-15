@@ -27,8 +27,8 @@ def siphon():
   rds.set('1',usd)
   rds.set('2', btc)
 
-  u = rds.get(1)
-  b = rds.get(2)
+  u = rds.get(1).decode(encoding='UTF-8')
+  b = rds.get(2).decode(encoding='UTF-8')
 
   #Output to console
   print("Price of US Dolar in Euro: "+ u)
