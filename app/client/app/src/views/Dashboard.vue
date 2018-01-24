@@ -1,21 +1,20 @@
 <template>
-  <div class="container">
-    <vue-chart type="line" :data="chartData"></vue-chart>
+  <div class="small">
+    <line-chart :chart-data="chartData"></line-chart>
+    <button @click="fillData()">Randomize</button>
   </div>
 </template>
- 
+
 <script>
-import VueChart from 'vue-chart-js'
+import LineChart from '../components/LineChart.js'
 
 export default {
-  name: 'App',
-
   components: {
-    VueChart
+    LineChart
   },
-
   data: () => ({
     chartData: {},
+    max: 50,
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -31,7 +30,7 @@ export default {
     setInterval(() => {
       this.fillData()
       console.log('Filling Data')
-    }, 5000)
+    }, 1000)
   },
 
   methods: {
@@ -51,11 +50,19 @@ export default {
           }
         ]
       }
+      this.max = 100
     },
 
     getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      return Math.floor(Math.random() * (this.max - 5 + 1)) + 5
     }
   }
 }
 </script>
+
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>
