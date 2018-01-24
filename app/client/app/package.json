@@ -1,9 +1,38 @@
 {
   "name": "app",
-  "description": "Vue.js Application",
+  "description": "Vue.js Application that serves as a front-end that allows users to compare currencys, and acquire results of currency data analysis.",
   "version": "1.0.0",
-  "author": "Gui Talarico <email@gmail.com>",
+  "author": "Group-3-Applied-Project-And-Thesis",
+  "homepage": "https://github.com/Group-3-Applied-Project-And-Thesis",
   "private": true,
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Tara O'Kelly",
+      "email": "taraokelly.dev@gmail.com",
+      "web": "https://github.com/taraokelly"
+    },
+    {
+      "name": "Rebecca Kane",
+      "web": "https://github.com/rebeccabernie"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Group-3-Applied-Project-And-Thesis/Currency-Analyser"
+  },
+  "bugs": {
+    "url": "https://github.com/Group-3-Applied-Project-And-Thesis/Currency-Analyser/issues"
+  },
+  "keywords": [
+    "ChartJs",
+    "Vue",
+    "Currency",
+    "Analyser",
+    "Real-time",
+    "Machine-learning",
+    "Analytics"
+  ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
@@ -13,13 +42,18 @@
     "axios": "^0.16.2",
     "bulma": "^0.6.0",
     "vue": "^2.4.4",
+    "vue-chart-js": "^1.4.1",
     "vue-router": "^2.7.0",
     "vuex": "^3.0.0"
+  },
+  "peerDependencies": {
+    "chart.js": "2.7.x"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "chart.js": "2.7.0",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "eslint": "^4.9.0",

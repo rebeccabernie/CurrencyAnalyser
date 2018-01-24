@@ -8,6 +8,11 @@ import time
 from flask import request
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
 
+""" 
+TODO: stream route here 
+ref: https://stephennewey.com/realtime-websites-with-flask/
+"""
+
 @rest_resource
 class ResourceOne(BaseResource):
     """ /api/resource/one """

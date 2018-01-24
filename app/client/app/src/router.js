@@ -4,7 +4,8 @@ import Router from 'vue-router'
 import Navbar from './components/Navbar'
 import SubNavbar from './components/SubNavbar'
 
-import Dashboard from './views/PageOne'
+//import Dashboard from './views/PageOne'
+import Dashboard from './views/Dashboard'
 import PageTwo from './views/PageTwo'
 
 /*

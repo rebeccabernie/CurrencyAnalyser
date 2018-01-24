@@ -4,17 +4,19 @@ import router from './router.js'
 import store from './store'
 
 import './filters.js'
-import Mixins from './mixins.js'
-Vue.mixin(Mixins)
+// import Mixins from './mixins.js'
+// Vue.mixin(Mixins)
 
 import App from './App.vue'
 
+// Set up global handlers and scope of the application.
 var vue = new Vue({
-  el: '#vue-app',
+  // el: '#vue-app',
+  render: h => h(App),
   router,
   store,
   template: '<App/>',
-  mixins: [Mixins],
+  // mixins: [Mixins],
   components: { App }
-})
+}).$mount('#vue-app')
 

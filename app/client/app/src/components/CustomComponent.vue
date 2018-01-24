@@ -40,6 +40,7 @@ export default {
   computed: {
     resource () {
       // To display `resourceOne` value from the backend
+      console.log(this.$store.state.resource)
       return this.$store.state.resource
     }
   },
