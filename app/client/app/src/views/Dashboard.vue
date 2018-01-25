@@ -1,7 +1,16 @@
 <template>
-  <div class="small">
-    <line-chart :chart-data="chartData"></line-chart>
-    <button @click="fillData()">Randomize</button>
+  <div class="container">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Live Currency Comparison
+        </p>
+      </header>
+      <div class="card-content">
+        <line-chart :chart-data="chartData" :options="options"></line-chart>
+        <button @click="fillData()">Randomize</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,12 +49,12 @@ export default {
         datasets: [
           {
             label: 'EURO',
-            backgroundColor: '#f87979',
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
             data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
           },
           {
             label: 'BITCOIN',
-            backgroundColor: '#f2f2f2',
+            backgroundColor: 'rgba(169,169,169, 0.5)',
             data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
           }
         ]
@@ -60,9 +69,6 @@ export default {
 }
 </script>
 
-<style>
-  .small {
-    max-width: 600px;
-    margin:  150px auto;
-  }
+<style lang="sass" scoped>
+
 </style>

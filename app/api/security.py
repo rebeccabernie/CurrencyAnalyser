@@ -8,6 +8,9 @@ def require_auth(func):
     def wrapper(*args, **kwargs):
         # Verify if User is Authenticated
         if True:
+            print("aborting")
+            print(args)
+            print(kwargs)
             return abort(401)
         else:
             return func(*args, **kwargs)

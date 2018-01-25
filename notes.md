@@ -15,3 +15,7 @@ https://flask-restful.readthedocs.io/en/latest/quickstart.html#resourceful-routi
 http://flask.pocoo.org/docs/0.12/blueprints/
 https://stephennewey.com/realtime-websites-with-flask/
 https://forum.vuejs.org/t/how-to-set-base-url-right/2540/6
+https://www.npmjs.com/package/vue-chart-js
+https://www.npmjs.com/package/vue-chartjs
+http://vue-chartjs.org/#/home?id=reactive-data
+https://codepen.io/Mark_Bowley/pen/xEbuI
