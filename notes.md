@@ -19,3 +19,5 @@ https://www.npmjs.com/package/vue-chart-js
 https://www.npmjs.com/package/vue-chartjs
 http://vue-chartjs.org/#/home?id=reactive-data
 https://codepen.io/Mark_Bowley/pen/xEbuI
+https://github.com/pallets/flask/issues/348
+http://flask.pocoo.org/docs/0.12/blueprints/#static-files
