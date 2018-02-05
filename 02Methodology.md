@@ -1,7 +1,8 @@
 # Methodology  
 
-__*3-5 pages (2-3000 words)*__
+__*3-5 pages (2-3000 words)*__  
 *Describe the way you went about your project. Was your approach to the problem valid?*  
+  
 Software development v/s Research methodology. Agile / incremental and iterative approach to development.  
 Planning. Did you storyboard? How did you determine the requirements for the project?  
 Meetings. Frequency, structure, checks & balances, feedback. What about validation and testing?  
@@ -16,9 +17,9 @@ Meet every weekday in college, at least to discuss issues/ideas. Work done on a 
 Might not be appropriate for thesis but hard to plan formally when we see and chat to each other every day, work just naturally gets done informally? Knew each other before project, get on very well, haven't really had any need to set very defined plans? Ask supervisor.  
 
 Github used for dev process, master branch only used for major / critical stages in project.  
-..* **CA-Vue.js**  - mainly used by Tara, frontend. Handles Vue and Chartjs.
-..* **CA-flask**  - used by Rebecca, has since been scrapped, technology will be integrated into Vue branch. No need to be separate as they both work very closely / Vue app dependent on flask server / tied together.  
-..* **Scripts**  - used by Johnny for the python scripts to pull data/handle db stuff.  
+⋅⋅* **CA-Vue.js**  - mainly used by Tara, frontend. Handles Vue and Chartjs.  
+⋅⋅* **CA-flask**  - used by Rebecca, has since been scrapped, technology will be integrated into Vue branch. No need to be separate as they both work very closely / Vue app dependent on flask server / tied together.  
+⋅⋅* **Scripts**  - used by Johnny for the python scripts to pull data/handle db stuff.  
 
 `develop` will combine above (working project in this branch), might be scrapped and just push above to master.  
 `test` will handle testing, yet to be integrated. Testing currently done ad-hoc.  

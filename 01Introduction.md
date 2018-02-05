@@ -2,6 +2,7 @@
 
 __*5 pages / 3-4000 words*__  
 *What is it about? Is it at the right level (8)? Is the scope correct? Do not assume that the reader knows anything about the domain.*  
+  
 Why should a reader care or be interested?  
 Set out the objectives of the project clearly  
 You will have to address each of these in the evaluation / conclusion.  
@@ -17,3 +18,5 @@ Referring to cryptocurrency as CC from here, will correct for submission. Tradit
 In recent years CC has grown from an unheard of concept into something everyone has heard of, more and more people buying/at least talking about it, features heavily in online news outlets, blog sites, reddit/hackernews/twitter etc. 
 
 Unlike TC, based on world events/country status/economy/disasters/war etc, CC based solely on hype (? will look into it more later on). Functions more like a stock than actual currency. All digital, no physical currency. Decentralised (not in one place) unlike TC, centralised in banks etc. Security (ECC), blockchain.  
+
+### Objectives
