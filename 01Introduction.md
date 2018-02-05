@@ -1,9 +1,7 @@
 # Introduction
 
-*5 pages (3-4000 words?)*
-What is it about? Is it at the right level (8)?  
-Is the scope correct?  
-Do not assume that the reader knows anything about the domain.  
+__*5 pages / 3-4000 words*__  
+*What is it about? Is it at the right level (8)? Is the scope correct? Do not assume that the reader knows anything about the domain.*  
 Why should a reader care or be interested?  
 Set out the objectives of the project clearly  
 You will have to address each of these in the evaluation / conclusion.  

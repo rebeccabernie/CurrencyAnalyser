@@ -1,7 +1,7 @@
 # Dissertation Overview
 Basic ideas, structure, topics to consider etc.  
 
-##Introduction
+## Introduction
 Lay out basic idea of project.  
 Applied aspect: webapp, what it does, basic technologies, machine learning/tensorflow.  
 Theoretical aspect: correlation between prices, influences, any maths/theorems/hypotheses etc, theory to do with prediction.  
@@ -35,6 +35,15 @@ Will likely break body into separate sections. 1, 2, 3 / maybe 4 based on theory
 
 ## Technologies / Components  
 Python, Flask, MongoDB, (ChartJS / D3), Vue.js, Tensorflow, Docker (?), Github, Heroku/Azure (?).
+
+## Web App Layout  
+**Main Page**  
+Graph with prices, can filter prices shown. Last hour/day/week?  
+General price prediction for the following day (based on numbers to begin, move on to NLP). Update and retrain with whatever's in the database each day.  
+RSS Feed with cryptocurrency related posts from reddit/hackernews.  
+
+**Other**  
+Possible blog post feature, admins can create posts, anyone can read. More admins can be added if desired.  
 
 ## Issues / Problems Encountered  
 @taraokelly - D3 / Vue vs ChartJS
