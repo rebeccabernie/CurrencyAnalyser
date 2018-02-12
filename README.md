@@ -11,6 +11,7 @@ Currently working on a basic prototype to predict based off 31 days of Bitcoin p
 
 **Links**  
 Briefly looking through stuff, will update with more info if used in project.  
+  
 http://mourafiq.com/2016/05/15/predicting-sequences-using-rnn-in-tensorflow.html - not exactly what we're looking for but could be good to look at.  
   
 https://medium.com/mlreview/a-simple-deep-learning-model-for-stock-price-prediction-using-tensorflow-30505541d877 - interesting read, repeats much of what we learned in Emerging Technologies in first semester of 4th year but will test out code etc.  
@@ -19,3 +20,7 @@ https://lilianweng.github.io/lil-log/2017/07/08/predict-stock-prices-using-RNN-p
 *Github repo here* - https://github.com/lilianweng/stock-rnn
   
 https://www.datasciencecentral.com/profiles/blogs/cnn-for-short-term-stocks-prediction-using-tensorflow  
+  
+https://medium.com/@huangkh19951228/predicting-cryptocurrency-price-with-tensorflow-and-keras-e1674b0dc58a - tensorflow/keras with Python 2.7  
+  
+https://dashee87.github.io/deep%20learning/python/predicting-cryptocurrency-prices-with-deep-learning/ - lot of detail, uses LSTM model, predicts BTC & ETH.  
