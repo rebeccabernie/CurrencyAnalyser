@@ -39,7 +39,7 @@ export default {
     setInterval(() => {
       this.fillData()
       console.log('Filling Data')
-    }, 1000)
+    }, 3000)
   },
 
   methods: {
