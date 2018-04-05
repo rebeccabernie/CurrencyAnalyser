@@ -3,7 +3,7 @@
 from flask_restful import Resource, abort
 
 from app.api import api_rest
-from app.api.security import require_auth
+from app.api.security import validate_args
 
 class BaseResource(Resource):
 
@@ -23,7 +23,7 @@ class BaseResource(Resource):
         abort(405)
 
 class SecureResource(BaseResource):
-    method_decorators = [require_auth]
+    method_decorators = [validate_args]
 
 def rest_resource(resource_cls):
     """ Decorator for adding resources to Api App """

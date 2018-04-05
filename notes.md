@@ -1,5 +1,28 @@
 # Notes
 
+## Mongo
+
+Heroku MongoLab Sandbox (the only free version available as a Heroku addon) has only 496 MB worth of storage. Constantly updating Currency prices being saved to the database accumulates a vast amount of space. 
+
+We need to look at how data can be saved in the database. 
+
+What we need to save:
+
++ Model in JSON format?
++ Machine learning data.
++ Currency data needed for ML.
+
+## Background Scripts
+
+```worker``` pulling currency data.
+```purge``` removing data.
+
+Either can add or delete from DB directly.
+
+or
+
+Use redis to signal the api and DB handler to do all writes. (Probably better)
+
 ## References
 
 https://github.com/vuejs/vue-router/issues/866
