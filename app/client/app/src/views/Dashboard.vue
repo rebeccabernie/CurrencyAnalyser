@@ -8,7 +8,6 @@
       </header>
       <div class="card-content">
         <line-chart :chart-data="chartData" :options="options"></line-chart>
-        <button @click="fillData()">Randomize</button>
       </div>
     </div>
   </div>
@@ -16,6 +15,7 @@
 
 <script>
 import LineChart from '../charts/LineChart'
+import { HTTP } from '../http-common.js'
 
 /*
 The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will
@@ -37,7 +37,7 @@ export default {
   },
   data: () => ({
     chartData: {},
-    max: 50,
+    // max: 50,
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -61,26 +61,13 @@ export default {
 
   methods: {
     fillData () {
-      /* Fake data for now. Will call the backend here. */
-      this.chartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [
-          {
-            label: 'EURO',
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-          },
-          {
-            label: 'BITCOIN',
-            backgroundColor: 'rgba(169,169,169, 0.5)',
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      }
-      this.max = 100
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (this.max - 5 + 1)) + 5
+      /* Calling the backend here. Fake data for now. */
+      HTTP.get(`resource/one`)
+        .then((response) => {
+          this.chartData = response.data
+        }, (error) => {
+          console.log('ERROR ' + error)
+        })
     }
   }
 }

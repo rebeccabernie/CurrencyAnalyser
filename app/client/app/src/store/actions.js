@@ -1,8 +1,9 @@
 import Vue from 'vue'
-import backend from './backend'
+// import backend from './backend'
 
 export default {
 
+  /*
   fetchResourceOne: function  (context) {
     backend.fetchResourceOne().then((responseData) => {
       context.commit('setResource', responseData)
@@ -14,4 +15,5 @@ export default {
   		context.commit('setResource', responseData)
   	})
   }
+  */
 }

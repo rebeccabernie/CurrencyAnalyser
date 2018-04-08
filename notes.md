@@ -47,6 +47,40 @@ The most popular will be filtered using a static list of relevant/well-known cur
 
 Depending on how often the ML predictions will be updated, the data will be updated or requested once.
 
+Data will be formatted python or vue side to adhere to the following format for thw use of chart js:
+
+ chartData : {
+        labels: [String],
+        datasets: [
+          {
+            label: String,
+            backgroundColor: String,
+            data: [number]
+          },
+          {
+            label: String,
+            backgroundColor: String,
+            data: [number]
+          }
+        ]
+      }
+E.g.
+ chartData : {
+        labels: ['5:34', '5:36'],
+        datasets: [
+          {
+            label: 'EURO',
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            data: [2000.68, 2000.71]
+          },
+          {
+            label: 'BITCOIN',
+            backgroundColor: 'rgba(169,169,169, 0.5)',
+            data: [4467.05, 4467.93]
+          }
+        ]
+      }
+
 ## References
 
 https://medium.com/techtrument/handling-ajax-request-in-vue-applications-using-axios-1d26c47fab0

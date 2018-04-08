@@ -6,6 +6,7 @@ http://flask-restful.readthedocs.io/en/latest/
 
 import time
 from flask import request
+from random import randint
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
 
 """ 
@@ -29,7 +30,21 @@ class ResourceOne(BaseResource):
 
     def get(self):
         time.sleep(1)
-        return {'name': 'Resource One', 'data': True}
+        res = {
+            'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            'datasets': 
+            [{
+                'label': 'EURO',
+                'backgroundColor': 'rgba(255, 0, 0, 0.5)',
+                'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
+            },
+            {
+                'label': 'BITCOIN',
+                'backgroundColor': 'rgba(169,169,169, 0.5)',
+                'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
+            }]
+        }
+        return res
 
     def post(self):
         json_payload = request.json

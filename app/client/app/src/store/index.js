@@ -13,6 +13,7 @@ export default new Vuex.Store({
 
   plugins: [createLogger()],
   strict: process.env.NODE_ENV !== 'production',
+  /*
   mutations,
   actions,
   getters,
@@ -20,4 +21,5 @@ export default new Vuex.Store({
     resource: null,
     isLoading: false
   }
+  */
 })
