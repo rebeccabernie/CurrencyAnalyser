@@ -10,7 +10,7 @@
       <div class="card-content">
         <div class="content">
           Content
-          <div>{{ resource }}</div>
+          <div>{{ r }}</div>
         </div>
       </div>
     </div>
@@ -20,10 +20,13 @@
 
 <script>
 
+import { HTTP } from '../http-common.js'
+
 export default {
   name: 'CustomComponent',
   data () {
     return {
+      r: ''
     }
   },
   watch: {
@@ -34,9 +37,20 @@ export default {
   methods: {
     setToggle: function (name, bool) {
       console.log('Toggle Called')
-      // this.$store.commit('setToggle', [name, bool])
+    },
+    getRandomInt () {
+      return Math.floor(Math.random() * (100 - 5 + 1)) + 5
+    },
+    getResource () {
+      HTTP.get(`resource/one`)
+        .then((response) => {
+          this.r = response.data
+        }, (error) => {
+          this.r = 'Error: ' + error
+        })
     }
   },
+  /*
   computed: {
     resource () {
       // To display `resourceOne` value from the backend
@@ -44,8 +58,9 @@ export default {
       return this.$store.state.resource
     }
   },
+  */
   mounted () {
-    this.$store.dispatch('fetchResourceOne')
+    this.getResource()
   }
 }
 </script>

@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Navbar from './components/Navbar'
 import SubNavbar from './components/SubNavbar'
 
-//import Dashboard from './views/PageOne'
+import test from './views/PageOne'
 import Dashboard from './views/Dashboard'
 import PageTwo from './views/PageTwo'
 
@@ -35,6 +35,14 @@ export default new Router({
         navbar: Navbar,
         subnavbar: SubNavbar,
         main: PageTwo
+      }
+    },
+    {
+      path: '/test',
+      components: {
+        navbar: Navbar,
+        subnavbar: SubNavbar,
+        main: test
       }
     },
     /*
