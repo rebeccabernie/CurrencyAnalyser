@@ -25,6 +25,8 @@ Use redis to signal the DB handler to do all writes. (Probably better)
 
 -- This can be done with the (Redis To Go)[https://devcenter.heroku.com/articles/redistogo] Heroku plugin. Basically, redis, a in-memeory and key-value based DB, can be used to communicate with the main web application. Another script or the api will contain a class that will listen for the redis channel and add the to the DB. The api will act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. 
 
+---- Issue 1: The listener class in the api does not get shutdown when trying to shutdown server.
+
 -- Queues with RQ can be used to manage requests to the DB handler. So all data is processed.
 
 ## Web app

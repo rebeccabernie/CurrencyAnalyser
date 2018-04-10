@@ -9,6 +9,40 @@ from flask import request
 from random import randint
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
 
+import redis
+import json
+import threading
+import requests
+
+from time import sleep
+
+REDIS_URL = "redis://localhost:6379" 
+REDIS_CHAN = "test"
+
+class Listener(threading.Thread):
+    def __init__(self, r, channels):
+        threading.Thread.__init__(self)
+        self.redis = r
+        self.pubsub = self.redis.pubsub()
+        self.pubsub.subscribe(channels)
+
+    def work(self, item):
+        print("Item recived: " + str(item['data']))
+
+    def run(self):
+        for item in self.pubsub.listen():
+            if item['data'] == b'KILL':
+                self.pubsub.unsubscribe()
+                print(self, "unsubsribed")
+                break
+            else:
+                self.work(item)
+            sleep(1)
+
+r = redis.from_url(REDIS_URL)
+client = Listener(r, [REDIS_CHAN])
+client.start()
+
 """ 
 TODO: stream route here 
 ref: https://stephennewey.com/realtime-websites-with-flask/
