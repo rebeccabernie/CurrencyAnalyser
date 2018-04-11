@@ -1,5 +1,45 @@
 # Notes
 
+## Deployment
+
+In the ```root``` directory:
+
+```
+git init
+
+heroku login
+  [email]
+  [password]
+
+heroku create [name]
+
+heroku addons:create redistogo
+
+heroku config:set FLASK_CONFIG=Production
+
+heroku config:set SECRET=SECRETKEY
+```
+
+In the ```app/client/app/src/http-common.js``` file:
+
+Make sure ```baseURL``` is set to the Heroku URL with ```/api/``` appended to the end.
+
+In the ```app/client/app``` directory:
+
+```
+npm build
+```
+
+In the ```root``` directory:
+
+```
+git add .
+
+git commit -m "[commit msg]"
+
+git push heroku master
+```
+
 ## Mongo
 
 (Heroku MongoLab Sandbox)[https://elements.heroku.com/addons/mongolab] (the only free version available as a Heroku addon) has only 496 MB worth of storage. Constantly updating Currency prices being saved to the database accumulates a vast amount of space. 
