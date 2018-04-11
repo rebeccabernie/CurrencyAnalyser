@@ -64,14 +64,17 @@ or
 Use redis to signal the DB handler to do all writes. (Probably better)
 
 - This can be done with the (Redis To Go)[https://devcenter.heroku.com/articles/redistogo] Heroku plugin. Basically, redis, a in-memeory and key-value based DB, can be used to communicate with the main web application. Another script or the api will contain a class that will listen for the redis channel and add the to the DB. The api will act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. Listener code snippet:
-```
-// <routing.py>
-// Connect to redis and start thread to listen to the currency data channel.
+```python
+# <routing.py>
+
+# Connect to redis and start thread to listen to the currency data channel.
 r = redis.from_url(REDIS_URL)
 client = Listener(r, [REDIS_CHAN_CURR])
 client.start()
 
-// <listen.py>
+# <listen.py>
+
+# Adapted from: https://github.com/JGCode/Heroku-Python-Redis-Comm
 class Listener(threading.Thread):
     def __init__(self, r, channels):
         threading.Thread.__init__(self)
@@ -92,10 +95,19 @@ class Listener(threading.Thread):
                 break
             else:
                 self.work(item)
+
+# <worker.py>
+
+payload = json.dumps({
+        'data': 'some data'
+        })
+    r.publish(REDIS_CHAN_CURR, payload)
  ```
   - **ISSUE**: The listener class in the api does not get shut down when trying to shutdown server. 
   - **SOVLED**: the modulale atexit can be used to detect when the worker is being shut down. A kill request can then be sent to the api listener, allowing the web app to shutdown.
-    ```
+    ```python
+    # <worker.py>
+
     # Adapted from: https://docs.python.org/2/library/atexit.html
     @atexit.register
     def goodbye():
@@ -104,11 +116,12 @@ class Listener(threading.Thread):
         payload = 'KILL'
         r.publish(REDIS_CHAN_CURR, payload)
     ```
-- Queues with RQ can be used to manage requests to the DB handler. So all data is processed.
+
+~~**TODO:** pymongo in blueprint, try: https://stackoverflow.com/questions/33166612/blueprints-pymongo-in-flask~~
 
 During the implementation of this concept for handling data, we came upon the realization that the API would be unnecessarily dealing with Mongo. The web app only deals with the most recent data and could be optimized by being pre-formatted to suit the web application's data format requirements. The data from the API to the web application will be requested and constantly refreshed for the most recent currency data. It would be cumbersome to query Mongo and reformat the query result with every request. The scripts were already communicating with the API via Redis, it seemed optimal that the scripts handle mongo and use Redis solely to share the most recent data with the API. This would inevitably require us to change our Mongo driver to MongoEngine, as PyMongo is a Flask module and our scripts will not be Flasks applications. On the bright side, the web application's Heroku CPU allocation will no longer be competing with listener threads, and the management of Mongo will be abstracted from the API rather than delegated to it.
 
-~~TODO: pymongo in blueprint, try: https://stackoverflow.com/questions/33166612/blueprints-pymongo-in-flask~~
+**TODO:** look into RQ
 
 ## Web app
 
@@ -170,7 +183,19 @@ E.g.
       }
 ```
 
+### About page
+
+- Team
+
+### RSS feed page???
+
+Bitcoin/cryptocurrency data
+
 ## References
+
+https://devcenter.heroku.com/articles/python-rq
+
+https://github.com/JGCode/Heroku-Python-Redis-Comm
 
 https://medium.com/techtrument/handling-ajax-request-in-vue-applications-using-axios-1d26c47fab0
 
