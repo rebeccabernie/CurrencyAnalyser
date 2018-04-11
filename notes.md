@@ -2,7 +2,7 @@
 
 ## Deployment
 
-In the ```root``` directory:
+**In the ```root``` directory:**
 
 ```
 git init
@@ -20,17 +20,17 @@ heroku config:set FLASK_CONFIG=Production
 heroku config:set SECRET=SECRETKEY
 ```
 
-In the ```app/client/app/src/http-common.js``` file:
+**In the ```app/client/app/src/http-common.js``` file:**
 
-Make sure ```baseURL``` is set to the Heroku URL with ```/api/``` appended to the end.
+Make sure ```baseURL```  variable in the axios object named ```HTTP``` is set to the Heroku URL with ```/api/``` appended to the end.
 
-In the ```app/client/app``` directory:
+**In the ```app/client/app``` directory:**
 
 ```
 npm build
 ```
 
-In the ```root``` directory:
+**In the ```root``` directory:**
 
 ```
 git add .
