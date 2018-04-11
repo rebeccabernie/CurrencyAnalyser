@@ -92,8 +92,9 @@ class Listener(threading.Thread):
                 break
             else:
                 self.work(item)
-```
-    - **Issue 1**: The listener class in the api does not get shut down when trying to shutdown server. SOVLED: the modulale atexit can be used to detect when the worker is being shut down. A kill request can then be sent to the api listener, allowing the web app to shutdown.
+ ```
+  - **ISSUE**: The listener class in the api does not get shut down when trying to shutdown server. 
+  - **SOVLED**: the modulale atexit can be used to detect when the worker is being shut down. A kill request can then be sent to the api listener, allowing the web app to shutdown.
     ```
     # Adapted from: https://docs.python.org/2/library/atexit.html
     @atexit.register
