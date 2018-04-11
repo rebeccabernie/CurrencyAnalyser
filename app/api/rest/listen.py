@@ -1,11 +1,11 @@
-import redis
-import json
+#import redis
+#import json
 import threading
-import requests
+#import requests
 
 from time import sleep
 
-from config import REDIS_URL, REDIS_CHAN
+from config import REDIS_CHAN_GRAPH
 
 # Adapted from
 class Listener(threading.Thread):
@@ -16,7 +16,8 @@ class Listener(threading.Thread):
         self.pubsub.subscribe(channels)
 
     def work(self, item):
-        print("Item recived: " + str(item['data']))
+        self.redis.set(REDIS_CHAN_GRAPH, item['data'])
+        #print("Item recived: " + str(item['data']))
 
     def run(self):
         for item in self.pubsub.listen():

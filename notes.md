@@ -29,6 +29,8 @@ Use redis to signal the DB handler to do all writes. (Probably better)
 
 -- Queues with RQ can be used to manage requests to the DB handler. So all data is processed.
 
+TODO: pymongo in blueprint, try: https://stackoverflow.com/questions/33166612/blueprints-pymongo-in-flask
+
 ## Web app
 
 ### Dashboard page

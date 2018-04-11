@@ -9,11 +9,11 @@ from app.api.rest.base import BaseResource, SecureResource, rest_resource
 
 import redis,json,threading,requests
 
-from config import REDIS_URL, REDIS_CHAN
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
 from app.api.rest.listen import Listener
 
 r = redis.from_url(REDIS_URL)
-client = Listener(r, [REDIS_CHAN])
+client = Listener(r, [REDIS_CHAN_CURR])
 client.start()
 
 """ 
@@ -36,21 +36,12 @@ class ResourceOne(BaseResource):
     endpoints = ['/resource/one']
 
     def get(self):
-        res = {
-            'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            'datasets': 
-            [{
-                'label': 'EURO',
-                'backgroundColor': 'rgba(255, 0, 0, 0.5)',
-                'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
-            },
-            {
-                'label': 'BITCOIN',
-                'backgroundColor': 'rgba(169,169,169, 0.5)',
-                'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
-            }]
-        }
-        return res
+        temp = r.get(REDIS_CHAN_GRAPH)
+        # Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
+        my_json = temp.decode('utf8')
+        # Load the JSON to a Python list, then format as JSON
+        data = json.loads(my_json)
+        return data
 
     def post(self):
         json_payload = request.json
@@ -63,5 +54,5 @@ class SecureResourceOne(SecureResource):
     endpoints = ['/resource/two/<string:resource_id>']
 
     def get(self, resource_id):
-        return {'name': 'Resource Two', 'data': resource_id}
+        return {'name': 'Resource Two', 'data': resource_id }
 
