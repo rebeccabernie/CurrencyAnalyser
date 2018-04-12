@@ -13,8 +13,8 @@ from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
 from app.api.rest.listen import Listener
 
 r = redis.from_url(REDIS_URL)
-client = Listener(r, [REDIS_CHAN_CURR])
-client.start()
+#client = Listener(r, [REDIS_CHAN_CURR])
+#client.start()
 
 """ 
 TODO: stream route here 

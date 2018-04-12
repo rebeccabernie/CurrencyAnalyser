@@ -4,7 +4,7 @@ import atexit
 from random import randint
 
 from time import sleep
-from config import REDIS_URL, REDIS_CHAN_CURR
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
 
 r = redis.from_url(REDIS_URL)
 
@@ -19,7 +19,7 @@ def goodbye():
 num = 0
 while(True):
     print("Publishing number: " + str(num))
-    payload = json.dumps({
+    chart = json.dumps({
         'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         'datasets': 
         [{
@@ -33,6 +33,7 @@ while(True):
             'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
         }]
         })
-    r.publish(REDIS_CHAN_CURR, payload)
+    #r.publish(REDIS_CHAN_CURR, payload)
+    r.set(REDIS_CHAN_GRAPH, chart)
     num +=1
     sleep(1)

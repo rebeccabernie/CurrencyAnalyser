@@ -63,7 +63,7 @@ or
 
 Use redis to signal the DB handler to do all writes. (Probably better)
 
-- This can be done with the (Redis To Go)[https://devcenter.heroku.com/articles/redistogo] Heroku plugin. Basically, redis, a in-memeory and key-value based DB, can be used to communicate with the main web application. Another script or the api will contain a class that will listen for the redis channel and add the to the DB. The api will act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. Listener code snippet:
+- This can be done with the [Redis To Go](https://devcenter.heroku.com/articles/redistogo) Heroku plugin. Basically, redis, a in-memeory and key-value based DB, can be used to communicate with the main web application. Another script or the api will contain a class that will listen for the redis channel and add the to the DB. The api will act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. Listener code snippet:
 ```python
 # <routing.py>
 
@@ -119,9 +119,9 @@ payload = json.dumps({
 
 ~~**TODO:** pymongo in blueprint, try: https://stackoverflow.com/questions/33166612/blueprints-pymongo-in-flask~~
 
-During the implementation of this concept for handling data, we came upon the realization that the API would be unnecessarily dealing with Mongo. The web app only deals with the most recent data and could be optimized by being pre-formatted to suit the web application's data format requirements. The data from the API to the web application will be requested and constantly refreshed for the most recent currency data. It would be cumbersome to query Mongo and reformat the query result with every request. The scripts were already communicating with the API via Redis, it seemed optimal that the scripts handle mongo and use Redis solely to share the most recent data with the API. This would inevitably require us to change our Mongo driver to MongoEngine, as PyMongo is a Flask module and our scripts will not be Flasks applications. On the bright side, the web application's Heroku CPU allocation will no longer be competing with listener threads, and the management of Mongo will be abstracted from the API rather than delegated to it.
+During the implementation of this concept for handling data, we came upon the realization that the API would be unnecessarily dealing with Mongo. The web app only deals with the most recent data and could be optimized by being pre-formatted to suit the web application's data format requirements. The data from the API to the web application will be requested and constantly refreshed for the most recent currency data. It would be cumbersome to query Mongo and reformat the query result with every request. The scripts were already communicating with the API via Redis, it seemed optimal that the scripts handle mongo and use Redis solely to share the most recent data with the API. This would inevitably require us to change our Mongo driver to MongoEngine, as PyMongo is a Flask module and our scripts will not be Flasks applications. On the bright side, this would subsequently simplify the code and reduce the dependancies the scripts have on one another, e.g. the worker relies on the web application to save the data published, the worker needs to be ran to allow a clean shutdown of the web application. The web application's Heroku CPU allocation will no longer be competing with listener threads, and the management of Mongo will be abstracted from the API rather than delegated to it.
 
-**TODO:** look into RQ
+**TODO:** look into RQ and schedular
 
 ## Web app
 
