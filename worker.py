@@ -1,5 +1,4 @@
-import redis, json, atexit, time
-from random import randint
+import redis, json, time
 from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
 
 from forex_python.converter import CurrencyRates
@@ -23,16 +22,6 @@ class DictHelper(dict):
         def itervalues(self):
             return (self[key] for key in self)
 
-# Adapted from: https://docs.python.org/2/library/atexit.html
-@atexit.register
-def goodbye():
-    print("Shutting down")
-    """
-    print("Killing listener")
-    payload = 'KILL'
-    r.publish(REDIS_CHAN_CURR, payload)
-    """
-
 tic = 30.0
 starttime = time.time()
 
@@ -54,11 +43,18 @@ while True:
         []
         }
     
-    data = c.get_rates('USD')
+    data = c.get_rates('EUR')
     rates = DictHelper(data)
 
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
     chart_data['labels'].append(time.strftime("%H:%M:%S"))
+
+    btc = b.get_latest_price('EUR')
+    chart_data['datasets'].append({
+        'label': 'BTC',
+        'backgroundColor': 'rgba('+rgbChar('Y')+','+rgbChar('T')+','+rgbChar('C')+', 0.65)',
+        'data': [btc]
+    })
 
     for (key, value) in rates.items():
         # print(key, value)
