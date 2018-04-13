@@ -33,7 +33,7 @@ def goodbye():
     r.publish(REDIS_CHAN_CURR, payload)
     """
 
-tic = 60.0
+tic = 30.0
 starttime=time.time()
 
 while True:
@@ -42,12 +42,34 @@ while True:
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
     c = CurrencyRates()
     b = BtcConverter()
-    data = c.get_rates('USD')
-    rates = DictHelper(data)
+    #USD TO EURO
+    usd_float = c.get_rate('USD', 'EUR')
+    #Bitcoin IN EURO
+    btc_float = b.get_latest_price('EUR')
+    usd = "{:.4f}".format(usd_float) 
+    btc = "{:.4f}".format(btc_float) 
+    #data = c.get_rates('USD')
+    #rates = DictHelper(data)
 
-    for (key, value) in rates.items():
-        print(key, value)
+    #for (key, value) in rates.items():
+    #    print(key, value)
     
+    chart = json.dumps({
+        'labels': ['January'],
+        'datasets': 
+        [{
+            'label': 'USD',
+            'backgroundColor': 'rgba(255, 0, 0, 0.5)',
+            'data': [usd]
+        },
+        {
+            'label': 'BTC',
+            'backgroundColor': 'rgba(169,169,169, 0.5)',
+            'data': [btc]
+        }]
+        })
+
+    """
     chart = json.dumps({
         'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         'datasets': 
@@ -62,7 +84,7 @@ while True:
             'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
         }]
         })
-
+    """
     r.set(REDIS_CHAN_GRAPH, chart)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))
