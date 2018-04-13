@@ -34,7 +34,12 @@ def goodbye():
     """
 
 tic = 30.0
-starttime=time.time()
+starttime = time.time()
+
+# Generate a unique colour based on unique currency code.
+# Get the ASCII code values for the char's A-Y are 65-90
+def rgbChar(c):
+    return str((((ord(c)-65)/25)*255))
 
 while True:
     print("Starting at number: " + str(datetime.datetime.utcnow()))
@@ -42,49 +47,30 @@ while True:
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
     c = CurrencyRates()
     b = BtcConverter()
-    #USD TO EURO
-    usd_float = c.get_rate('USD', 'EUR')
-    #Bitcoin IN EURO
-    btc_float = b.get_latest_price('EUR')
-    usd = "{:.4f}".format(usd_float) 
-    btc = "{:.4f}".format(btc_float) 
-    #data = c.get_rates('USD')
-    #rates = DictHelper(data)
 
-    #for (key, value) in rates.items():
-    #    print(key, value)
+    chart_data = {
+        'labels': [],
+        'datasets': 
+        []
+        }
     
-    chart = json.dumps({
-        'labels': ['January'],
-        'datasets': 
-        [{
-            'label': 'USD',
-            'backgroundColor': 'rgba(255, 0, 0, 0.5)',
-            'data': [usd]
-        },
-        {
-            'label': 'BTC',
-            'backgroundColor': 'rgba(169,169,169, 0.5)',
-            'data': [btc]
-        }]
+    data = c.get_rates('USD')
+    rates = DictHelper(data)
+
+    # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
+    chart_data['labels'].append(time.strftime("%H:%M:%S"))
+
+    for (key, value) in rates.items():
+        # print(key, value)
+        k = list(key)
+        chart_data['datasets'].append({
+            'label': key,
+            'backgroundColor': 'rgba('+rgbChar(k[0])+','+rgbChar(k[1])+','+rgbChar(k[2])+', 0.65)',
+            'data': [value]
         })
 
-    """
-    chart = json.dumps({
-        'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        'datasets': 
-        [{
-            'label': 'EURO',
-            'backgroundColor': 'rgba(255, 0, 0, 0.5)',
-            'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
-        },
-        {
-            'label': 'BITCOIN',
-            'backgroundColor': 'rgba(169,169,169, 0.5)',
-            'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
-        }]
-        })
-    """
+    print(chart_data)
+    chart = json.dumps(chart_data)
     r.set(REDIS_CHAN_GRAPH, chart)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))
