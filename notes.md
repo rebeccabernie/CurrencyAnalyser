@@ -123,6 +123,10 @@ During the implementation of this concept for handling data, we came upon the re
 
 **TODO:** look into RQ and schedular
 
+RQ was unsupported by windows, or any operating system that doesn't support the use of ```os.fork()``` (https://github.com/rq/rq/issues/226) for that matter.
+
+The schedular doesn't consistently call our pull data method every *n* seconds. Instead, it pulls the data in *n* seconds plus the time taken to carry out the said method. 
+
 ## Web app
 
 ### Dashboard page
@@ -192,6 +196,8 @@ E.g.
 Bitcoin/cryptocurrency data
 
 ## References
+
+https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
 
 https://devcenter.heroku.com/articles/python-rq
 
