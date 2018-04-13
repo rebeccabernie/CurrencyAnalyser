@@ -1,10 +1,10 @@
-import redis
-import json
-import atexit
+import redis, json, atexit, time
 from random import randint
-
-from time import sleep
 from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
+
+from forex_python.converter import CurrencyRates
+from forex_python.bitcoin import BtcConverter
+import datetime, schedule, os
 
 r = redis.from_url(REDIS_URL)
 
@@ -12,13 +12,18 @@ r = redis.from_url(REDIS_URL)
 @atexit.register
 def goodbye():
     print("Shutting down")
+    """
     print("Killing listener")
     payload = 'KILL'
     r.publish(REDIS_CHAN_CURR, payload)
+    """
 
-num = 0
-while(True):
-    print("Publishing number: " + str(num))
+tic = 60.0
+starttime=time.time()
+
+while True:
+    print("Starting at number: " + str(datetime.datetime.utcnow()))
+
     chart = json.dumps({
         'labels': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         'datasets': 
@@ -33,7 +38,8 @@ while(True):
             'data': [randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100), randint(0, 100)]
         }]
         })
-    #r.publish(REDIS_CHAN_CURR, payload)
     r.set(REDIS_CHAN_GRAPH, chart)
-    num +=1
-    sleep(1)
+    
+    print("Finishing at number: " + str(datetime.datetime.utcnow()))
+    # Adapted from: https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python/38317060
+    time.sleep(tic - ((time.time() - starttime) % tic))
