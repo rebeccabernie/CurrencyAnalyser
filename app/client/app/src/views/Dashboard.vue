@@ -62,7 +62,7 @@ export default {
   methods: {
     fillData () {
       /* Calling the backend here. Fake data for now. */
-      HTTP.get(`resource/one`)
+      HTTP.get(`/resource/currencies/latest/graph`)
         .then((response) => {
           this.chartData = response.data
         }, (error) => {

@@ -1,5 +1,5 @@
 import redis, json, time, datetime, schedule, os
-from config import REDIS_URL, REDIS_CHAN_GRAPH
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
 from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
 from forex_python.bitcoin import BtcConverter
@@ -32,10 +32,11 @@ while True:
 
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
     chart_data['labels'].append(time.strftime("%H:%M:%S"))
+    # If 20 dates are already currently in the list - pop.
     if len(chart_data['labels']) >= 20:
         chart_data['labels'].pop(0)
         pop = True
-
+    # Loop through array of datasets to append or append and pop.
     if chart_data['datasets']:
         i = 0
         chart_data['datasets'][i]['data'].append(btc)
@@ -47,6 +48,7 @@ while True:
             if pop:
                 chart_data['datasets'][i]['data'].pop(0)
     else:
+        # Set up data set. BTC is done seperately due to the way forex data is queried.
         chart_data['datasets'].append({
             'label': 'BTC',
             'backgroundColor': 'rgba('+rgbChar('Y')+','+rgbChar('T')+','+rgbChar('C')+', 0.65)',
@@ -60,6 +62,7 @@ while True:
                 'backgroundColor': 'rgba('+rgbChar(k[0])+','+rgbChar(k[1])+','+rgbChar(k[2])+', 0.65)',
                 'data': [value]
             })
+        r.set(REDIS_CHAN_CURR, currencies)
 
     chart = json.dumps(chart_data)
     r.set(REDIS_CHAN_GRAPH, chart)
