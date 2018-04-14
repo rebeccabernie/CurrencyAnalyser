@@ -30,6 +30,8 @@ while True:
     rates = DictHelper(data)
     pop = False
 
+    print(rates)
+
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
     chart_data['labels'].append(time.strftime("%H:%M:%S"))
     # If 20 dates are already currently in the list - pop.

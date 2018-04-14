@@ -2,13 +2,15 @@
   <section>
 
     <div class="container">
-      <custom-component style="width:75%" :data="'DataFromParent'"/>
+      <live-currency-graph style="width:74.5%; float:left"/>
+      <live-currency-list style="width:24.5%; float:right"/>
     </div>
 
   </section>
 </template>
 <script>
-import CustomComponent from '../components/CustomComponent'
+import LiveCurrencyGraph from '../components/LiveCurrencyGraph'
+import LiveCurrencyList from '../components/LiveCurrencyList'
 /*
 The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will
 consist of cards to display the:
@@ -26,17 +28,8 @@ currencies. Depending on how often the ML predictions will be updated, the data 
 export default {
   name: 'Property',
   components: {
-    'custom-component': CustomComponent
-  },
-  data () {
-    return {
-
-    }
-  },
-  computed: {
-    isLoading () {
-      return this.$store.state.isLoading
-    }
+    'live-currency-graph': LiveCurrencyGraph,
+    'live-currency-list': LiveCurrencyList
   }
 }
 </script>
