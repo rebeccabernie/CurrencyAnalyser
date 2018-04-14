@@ -32,8 +32,8 @@ ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 """
 @rest_resource
 class ResourceOne(BaseResource):
-    """ /resource/currencies/latest/graph """
-    endpoints = ['/resource/currencies/latest/graph']
+    """ api/currencies/latest/graph """
+    endpoints = ['/currencies/latest/graph']
 
     def get(self):
         temp = r.get(REDIS_CHAN_GRAPH)
@@ -47,8 +47,8 @@ class ResourceOne(BaseResource):
 
 @rest_resource
 class ResourceTwo(BaseResource):
-    """ /resource/currencies/list """
-    endpoints = ['/resource/currencies/list']
+    """ /api/currencies/list """
+    endpoints = ['/currencies/list']
 
     def get(self):
         temp = r.get(REDIS_CHAN_CURR)
@@ -61,10 +61,10 @@ class ResourceTwo(BaseResource):
 
 
 @rest_resource
-class SecureResourceOne(SecureResource):
-    """ /api/resource/two """
-    endpoints = ['/resource/two/<string:resource_id>']
+class SecureResourceOne(BaseResource):
+    """ /api/currencies/latest/graph """
+    endpoints = ['/currencies/latest/graph/<string:curr_one>/<string:curr_two>']
 
-    def get(self, resource_id):
-        return {'name': 'Resource Two', 'data': resource_id }
+    def get(self, curr_one, curr_two):
+        return {'name': 'Resource Two', 'data': [curr_one, curr_two] }
 
