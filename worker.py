@@ -1,5 +1,5 @@
 import redis, json, time, datetime, schedule, os
-from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST
 from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
 from forex_python.bitcoin import BtcConverter
@@ -8,10 +8,12 @@ r = redis.from_url(REDIS_URL)
 tic = 30.0
 starttime = time.time()
 currencies = []
+latest_currencies = {
+    'currencies':[]
+}
 chart_data = {
         'labels': [],
-        'datasets': 
-        []
+        'datasets': []
         }
 
 # Generate a unique colour based on unique currency code.
@@ -20,8 +22,8 @@ def rgbChar(c):
     return str(int((((ord(c)-65)/25)*255)))
 
 while True:
+    t = time.strftime("%H:%M:%S")
     print("Starting at number: " + str(datetime.datetime.utcnow()))
-
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
     c = CurrencyRates()
     b = BtcConverter()
@@ -30,10 +32,8 @@ while True:
     rates = DictHelper(data)
     pop = False
 
-    print(rates)
-
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
-    chart_data['labels'].append(time.strftime("%H:%M:%S"))
+    chart_data['labels'].append(t)
     # If 20 dates are already currently in the list - pop.
     if len(chart_data['labels']) >= 20:
         chart_data['labels'].pop(0)
@@ -42,11 +42,13 @@ while True:
     if chart_data['datasets']:
         i = 0
         chart_data['datasets'][i]['data'].append('{0:.2f}'.format(btc))
+        latest_currencies['currencies'][i]['data'] = '{0:.2f}'.format(btc)
         if pop:
             chart_data['datasets'][i]['data'].pop(0)
         for value in rates.values():
             i = i + 1
             chart_data['datasets'][i]['data'].append('{0:.2f}'.format(value))
+            latest_currencies['currencies'][i]['data'] = '{0:.2f}'.format(value)
             if pop:
                 chart_data['datasets'][i]['data'].pop(0)
     else:
@@ -57,6 +59,11 @@ while True:
             'backgroundColor': 'rgba('+rgbChar('Y')+','+rgbChar('T')+','+rgbChar('C')+', 0.65)',
             'data': ['{0:.2f}'.format(btc)]
         })
+        latest_currencies['currencies'].append({
+            'name': 'BTC',
+            'data': ['{0:.2f}'.format(btc)]
+        })
+        # Rest of rates.
         for (key, value) in rates.items():
             currencies.append(key)
             k = list(key)
@@ -65,9 +72,16 @@ while True:
                 'backgroundColor': 'rgba('+rgbChar(k[0])+','+rgbChar(k[1])+','+rgbChar(k[2])+', 0.65)',
                 'data': ['{0:.2f}'.format(value)]
             })
+            latest_currencies['currencies'].append({
+            'name': key,
+            'data': ['{0:.2f}'.format(value)]
+        })
         r.set(REDIS_CHAN_CURR, currencies)
 
+    latest = json.dumps(latest_currencies)
     chart = json.dumps(chart_data)
+
+    r.set(REDIS_CHAN_LIST, latest_currencies)
     r.set(REDIS_CHAN_GRAPH, chart)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))

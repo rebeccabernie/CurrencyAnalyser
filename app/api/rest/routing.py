@@ -9,7 +9,7 @@ from app.api.rest.base import BaseResource, SecureResource, rest_resource
 
 import redis,json,threading,requests
 
-from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST
 from app.api.rest.listen import Listener
 
 r = redis.from_url(REDIS_URL)
@@ -75,3 +75,17 @@ class ResourceThree(BaseResource):
         data['datasets'] = list(filter(lambda x : x['label'] == curr_one or x['label'] == curr_two, data['datasets']))
         return data
 
+@rest_resource
+class ResourceFour(BaseResource):
+    """ api/currencies/latest/list """
+    endpoints = ['/currencies/latest/list']
+
+    def get(self):
+        temp = r.get(REDIS_CHAN_LIST)
+        if temp is None:
+            return { 'error': 'Not Found' }, 404
+        # Prepare data. Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
+        my_json = temp.decode('utf8').replace("'", '"')
+        data = json.loads(my_json)
+        # defaults to 200
+        return data
