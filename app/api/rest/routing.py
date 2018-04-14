@@ -66,5 +66,11 @@ class SecureResourceOne(BaseResource):
     endpoints = ['/currencies/latest/graph/<string:curr_one>/<string:curr_two>']
 
     def get(self, curr_one, curr_two):
-        return {'name': 'Resource Two', 'data': [curr_one, curr_two] }
+        temp = r.get(REDIS_CHAN_GRAPH)
+        if temp is None:
+            return { 'error': 'Not Found' }, 404
+        my_json = temp.decode('utf8')
+        data = json.loads(my_json)
+        data['datasets'] = list(filter(lambda x : x['label'] == curr_one or x['label'] == curr_two, data['datasets']))
+        return data
 

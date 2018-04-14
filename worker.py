@@ -39,20 +39,21 @@ while True:
     # Loop through array of datasets to append or append and pop.
     if chart_data['datasets']:
         i = 0
-        chart_data['datasets'][i]['data'].append(btc)
+        chart_data['datasets'][i]['data'].append('{0:.2f}'.format(btc))
         if pop:
             chart_data['datasets'][i]['data'].pop(0)
         for value in rates.values():
             i = i + 1
-            chart_data['datasets'][i]['data'].append(value)
+            chart_data['datasets'][i]['data'].append('{0:.2f}'.format(value))
             if pop:
                 chart_data['datasets'][i]['data'].pop(0)
     else:
         # Set up data set. BTC is done seperately due to the way forex data is queried.
+        currencies.append('BTC')
         chart_data['datasets'].append({
-            'label': 'BTC ',
+            'label': 'BTC',
             'backgroundColor': 'rgba('+rgbChar('Y')+','+rgbChar('T')+','+rgbChar('C')+', 0.65)',
-            'data': [btc]
+            'data': ['{0:.2f}'.format(btc)]
         })
         for (key, value) in rates.items():
             currencies.append(key)
@@ -60,7 +61,7 @@ while True:
             chart_data['datasets'].append({
                 'label': key,
                 'backgroundColor': 'rgba('+rgbChar(k[0])+','+rgbChar(k[1])+','+rgbChar(k[2])+', 0.65)',
-                'data': [value]
+                'data': ['{0:.2f}'.format(value)]
             })
         r.set(REDIS_CHAN_CURR, currencies)
 

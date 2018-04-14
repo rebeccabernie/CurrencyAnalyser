@@ -44,8 +44,11 @@ export default {
   data: () => ({
     curr_1: '',
     curr_2: '',
-    currencies: ['BTC', 'USD'],
-    chartData: {},
+    currencies: [],
+    chartData: {
+      labels: [],
+      datasets: []
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false
@@ -58,11 +61,17 @@ export default {
     */
     this.getCurrencies()
   },
-
+  watch: {
+    curr_1: function (val) {
+      this.fillData()
+    },
+    curr_2: function (val) {
+      this.fillData()
+    }
+  },
   methods: {
     fillData () {
-      console.log(this.curr_1)
-      HTTP.get(`/currencies/latest/graph`)
+      HTTP.get('/currencies/latest/graph/' + this.curr_1 + '/' + this.curr_2)
         .then((response) => {
           this.chartData = response.data
         }, (error) => {
@@ -73,15 +82,12 @@ export default {
         })
     },
     getCurrencies () {
-      /* Calling the backend here. Fake data for now. */
       HTTP.get(`/currencies/list`)
         .then((response) => {
           this.currencies = response.data.currencies
           this.curr_1 = this.currencies[0]
           this.curr_2 = this.currencies[1]
-          /* Poll data for the first time here. */
-          this.fillData()
-          /* Every 3 seconds fill data. Poll data from API here. */
+          /* Every 3 seconds fill data. Polling data from API. */
           setInterval(() => {
             this.fillData()
           }, 3000)
