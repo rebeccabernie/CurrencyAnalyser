@@ -17,7 +17,7 @@ chart_data = {
 # Generate a unique colour based on unique currency code.
 # Get the ASCII code values for the char's A-Y are 65-90.
 def rgbChar(c):
-    return str((((ord(c)-65)/25)*255))
+    return str(int((((ord(c)-65)/25)*255)))
 
 while True:
     print("Starting at number: " + str(datetime.datetime.utcnow()))
@@ -50,7 +50,7 @@ while True:
     else:
         # Set up data set. BTC is done seperately due to the way forex data is queried.
         chart_data['datasets'].append({
-            'label': 'BTC',
+            'label': 'BTC ',
             'backgroundColor': 'rgba('+rgbChar('Y')+','+rgbChar('T')+','+rgbChar('C')+', 0.65)',
             'data': [btc]
         })
