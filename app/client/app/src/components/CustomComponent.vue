@@ -8,10 +8,13 @@
         </p>
       </header>
       <div class="card-content">
-        <div class="content">
-          Content
-          <div>{{ r }}</div>
-        </div>
+        <select v-model="curr_1">
+            <option v-for="c in currencies">{{ c }}</option>
+        </select>
+        <select v-model="curr_2">
+            <option v-for="c in currencies">{{ c }}</option>
+        </select>
+        <line-chart :chart-data="chartData" :options="options"></line-chart>
       </div>
     </div>
 
@@ -20,47 +23,67 @@
 
 <script>
 
+import LineChart from '../charts/LineChart'
 import { HTTP } from '../http-common.js'
 
 export default {
-  name: 'CustomComponent',
-  data () {
-    return {
-      r: ''
+  components: {
+    LineChart
+  },
+  data: () => ({
+    curr_1: '',
+    curr_2: '',
+    currencies: [],
+    chartData: {
+      labels: [],
+      datasets: []
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
     }
+  }),
+  created () {
+    /*
+    As indicated here: https://stackoverflow.com/questions/45813347/difference-between-the-created-and-mounted-events-in-vue-js
+    The created event is the optimal place to request data.
+    */
+    this.getCurrencies()
   },
   watch: {
-    viewToggleOther (bool) {
-      this.setToggle('other', bool)
+    curr_1: function (val) {
+      this.fillData()
+    },
+    curr_2: function (val) {
+      this.fillData()
     }
   },
   methods: {
-    setToggle: function (name, bool) {
-      console.log('Toggle Called')
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (100 - 5 + 1)) + 5
-    },
-    getResource () {
-      HTTP.get(`resource/one`)
+    fillData () {
+      HTTP.get('/currencies/latest/graph/' + this.curr_1 + '/' + this.curr_2)
         .then((response) => {
-          this.r = response.data
+          this.chartData = response.data
         }, (error) => {
-          this.r = 'Error: ' + error
+          /*
+          TODO: Display error to user.
+          */
+          console.log('ERROR ' + error)
+        })
+    },
+    getCurrencies () {
+      HTTP.get(`/currencies/list`)
+        .then((response) => {
+          this.currencies = response.data.currencies
+          this.curr_1 = this.currencies[0]
+          this.curr_2 = this.currencies[1]
+          /* Every 3 seconds fill data. Polling data from API. */
+          setInterval(() => {
+            this.fillData()
+          }, 3000)
+        }, (error) => {
+          console.log('ERROR ' + error)
         })
     }
-  },
-  /*
-  computed: {
-    resource () {
-      // To display `resourceOne` value from the backend
-      console.log(this.$store.state.resource)
-      return this.$store.state.resource
-    }
-  },
-  */
-  mounted () {
-    this.getResource()
   }
 }
 </script>

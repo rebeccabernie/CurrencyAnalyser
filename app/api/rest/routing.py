@@ -61,7 +61,7 @@ class ResourceTwo(BaseResource):
 
 
 @rest_resource
-class SecureResourceOne(BaseResource):
+class ResourceThree(BaseResource):
     """ /api/currencies/latest/graph """
     endpoints = ['/currencies/latest/graph/<string:curr_one>/<string:curr_two>']
 
@@ -71,6 +71,7 @@ class SecureResourceOne(BaseResource):
             return { 'error': 'Not Found' }, 404
         my_json = temp.decode('utf8')
         data = json.loads(my_json)
+        # https://medium.com/@happymishra66/lambda-map-and-filter-in-python-4935f248593
         data['datasets'] = list(filter(lambda x : x['label'] == curr_one or x['label'] == curr_two, data['datasets']))
         return data
 
