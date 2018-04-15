@@ -4,7 +4,7 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          Currency Rates
+          Live Rates
         </p>
       </header>
       <div class="card-content list">

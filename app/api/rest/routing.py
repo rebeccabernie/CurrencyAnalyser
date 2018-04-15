@@ -6,7 +6,7 @@ http://flask-restful.readthedocs.io/en/latest/
 from flask import request
 from random import randint
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
-from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES
+from config import REDIS_URL, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES
 
 import redis,json,threading,requests
 
@@ -36,14 +36,6 @@ class ResourceOne(BaseResource):
     endpoints = ['/currencies/list']
 
     def get(self):
-        """
-        temp = r.get(REDIS_CHAN_CURR)
-        if temp is None:
-            return { 'error': 'Not Found' }, 404
-        # Prepare data.
-        my_json = temp.decode('utf8')
-        data = eval(my_json)
-        """
         return { 'currencies': CURR_CODES }
 
 @rest_resource
