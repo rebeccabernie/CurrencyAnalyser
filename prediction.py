@@ -8,8 +8,11 @@ import matplotlib.pyplot as plt
 # "A simple deep learning model for stock price prediction using TensorFlow" Medium article here - https://medium.com/mlreview/a-simple-deep-learning-model-for-stock-price-prediction-using-tensorflow-30505541d877
 # Heinz' source code - https://github.com/sebastianheinz/stockprediction
 
+# Data obtained from: https://bitcoincharts.com/charts/bitstampUSD#rg150zigHourlyzczsg2017-11-17zeg2018-04-16ztgSzm1g10zm2g25zv
+# Also a possibility: https://www.kaggle.com/mczielinski/bitcoin-historical-data
+
 # Import data
-data = pd.read_csv('coindeskprices3yr.csv')
+data = pd.read_csv('btccsv5M.csv')
 
 # Drop date variable
 data = data.drop(['Date'], 1)
@@ -23,7 +26,7 @@ data = data.values
 
 # Training and test data
 train_start = 0
-train_end = int(np.floor(0.95*n))
+train_end = int(np.floor(0.8*n))
 test_start = train_end + 1
 test_end = n
 data_train = data[np.arange(train_start, train_end), :]
@@ -108,18 +111,17 @@ mse_train = []
 mse_test = []
 
 # Run
-epochs = 100
+epochs = 20
 for e in range(epochs):
 
     # Shuffle training data
-    print("Shuffling training data...")
+    print("Training epoch" + str(e))
     shuffle_indices = np.random.permutation(np.arange(len(y_train)))
     X_train = X_train[shuffle_indices]
     y_train = y_train[shuffle_indices]
 
     # Minibatch training
     for i in range(0, len(y_train) // batch_size):
-        print("Training " + str(i))
         start = i * batch_size
         batch_x = X_train[start:start + batch_size]
         batch_y = y_train[start:start + batch_size]
