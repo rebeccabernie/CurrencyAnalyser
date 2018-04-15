@@ -1,10 +1,9 @@
-import redis, json, time, datetime, schedule, os
-from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST
+import redis, json, time, datetime, schedule, os, config
 from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
 from forex_python.bitcoin import BtcConverter
 
-r = redis.from_url(REDIS_URL)
+r = redis.from_url(config.REDIS_URL)
 tic = 30.0
 starttime = time.time()
 currencies = []
@@ -76,13 +75,13 @@ while True:
             'name': key,
             'data': ['{0:.2f}'.format(value)]
         })
-        r.set(REDIS_CHAN_CURR, currencies)
+        r.set(config.REDIS_CHAN_CURR, currencies)
 
     latest = json.dumps(latest_currencies)
     chart = json.dumps(chart_data)
 
-    r.set(REDIS_CHAN_LIST, latest_currencies)
-    r.set(REDIS_CHAN_GRAPH, chart)
+    r.set(config.REDIS_CHAN_LIST, latest_currencies)
+    r.set(config.REDIS_CHAN_GRAPH, chart)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))
     # Adapted from: https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python/38317060
