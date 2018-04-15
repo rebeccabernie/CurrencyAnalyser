@@ -1,6 +1,7 @@
 import redis, json, time, datetime, schedule, os, config
 from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
+from forex_python.converter import CurrencyCodes
 from forex_python.bitcoin import BtcConverter
 
 r = redis.from_url(config.REDIS_URL)
@@ -47,40 +48,17 @@ while True:
             latest_currencies['currencies'][i]['data'] = price
             if pop:
                 chart_data['datasets'][i]['data'].pop(0)
-        '''
-        i = 0
-        chart_data['datasets'][i]['data'].append('{0:.2f}'.format(btc))
-        latest_currencies['currencies'][i]['data'] = '{0:.2f}'.format(btc)
-        if pop:
-            chart_data['datasets'][i]['data'].pop(0)
-        for value in rates.values():
-            i = i + 1
-            chart_data['datasets'][i]['data'].append('{0:.2f}'.format(value))
-            latest_currencies['currencies'][i]['data'] = '{0:.2f}'.format(value)
-            if pop:
-                chart_data['datasets'][i]['data'].pop(0)
-        '''
     else:
-        """
-        # Set up data set. BTC is done seperately due to the way forex data is queried.
-        i = 0
-        l = list(config.CURR_CODES[i])
-        btc = '{0:.2f}'.format(b.get_latest_price('EUR'))
-        chart_data['datasets'].append({
-            'label': config.CURR_CODES[i],
-            'backgroundColor': 'rgba('+rgbChar(l[i])+','+rgbChar(l[i])+','+rgbChar(l[i])+', 0.65)',
-            'data': [btc]
-        })
-        latest_currencies['currencies'].append({
-            'name': config.CURR_CODES[i],
-            'data': [btc]
-        })
-        """
+        co = CurrencyCodes()
         # Prepare data objects and pull first prices.
         for i, code in enumerate(config.CURR_CODES):
             if code == 'BTC':
+                symbol = b.get_symbol()
+                name = 'Bitcoin'
                 price = '{0:.5f}'.format(b.get_latest_price('EUR'))
             else:
+                name = co.get_currency_name(code)
+                symbol = co.get_symbol(code)
                 price = '{0:.5f}'.format(c.get_rate(code, 'EUR'))
             chart_data['datasets'].append({
                 'label': code,
@@ -89,21 +67,10 @@ while True:
             })
             latest_currencies['currencies'].append({
                 'code': code,
-                'name': config.CURR_NAMES[i],
+                'name': name,
+                'symbol': symbol,
                 'data': price
             })
-            """
-            k = list(key)
-            chart_data['datasets'].append({
-                'label': key,
-                'backgroundColor': 'rgba('+rgbChar(k[0])+','+rgbChar(k[1])+','+rgbChar(k[2])+', 0.65)',
-                'data': ['{0:.2f}'.format(value)]
-            })
-            latest_currencies['currencies'].append({
-            'name': key,
-            'data': ['{0:.2f}'.format(value)]
-            
-        })"""
 
     latest = json.dumps(latest_currencies)
     chart = json.dumps(chart_data)

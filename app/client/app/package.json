@@ -42,6 +42,7 @@
     "axios": "^0.16.2",
     "bulma": "^0.6.0",
     "json-property-filter": "^1.3.1",
+    "v-tooltip": "^2.0.0-rc.31",
     "vue": "^2.4.4",
     "vue-chart-js": "^1.4.1",
     "vue-chartjs": "^3.1.0",

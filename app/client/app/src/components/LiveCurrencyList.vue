@@ -10,7 +10,7 @@
       <div class="card-content list">
         <ul id="currency_list">
         <li v-for="c in currencies">
-            <div> {{ c.name }} </div>
+            <div> <p v-tooltip.top-center="c.name + ' ' + c.symbol">{{ c.code }}</p> </div>
             <div> {{ c.data }} </div>
         </li>
         </ul>

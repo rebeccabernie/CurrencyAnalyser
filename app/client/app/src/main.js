@@ -2,10 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router.js'
 import store from './store'
+import VTooltip from 'v-tooltip'
 
 import './filters.js'
 // import Mixins from './mixins.js'
 // Vue.mixin(Mixins)
+
+Vue.use(VTooltip)
 
 import App from './App.vue'
 
