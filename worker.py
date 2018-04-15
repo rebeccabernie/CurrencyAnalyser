@@ -38,6 +38,15 @@ while True:
         pop = True
     # Loop through array of datasets to append or append and pop.
     if chart_data['datasets']:
+        for i, code in enumerate(config.CURR_CODES):
+            if code == 'BTC':
+                price = '{0:.5f}'.format(b.get_latest_price('EUR'))
+            else:
+                price = '{0:.5f}'.format(c.get_rate(code, 'EUR'))
+            chart_data['datasets'][i]['data'].append(price)
+            latest_currencies['currencies'][i]['data'] = price
+            if pop:
+                chart_data['datasets'][i]['data'].pop(0)
         '''
         i = 0
         chart_data['datasets'][i]['data'].append('{0:.2f}'.format(btc))
@@ -67,21 +76,21 @@ while True:
             'data': [btc]
         })
         """
-        # Rest of rates.
+        # Prepare data objects and pull first prices.
         for i, code in enumerate(config.CURR_CODES):
             if code == 'BTC':
-                rate = '{0:.2f}'.format(b.get_latest_price('EUR'))
+                price = '{0:.5f}'.format(b.get_latest_price('EUR'))
             else:
-                rate = '{0:.2f}'.format(c.get_rate(code, 'EUR'))
+                price = '{0:.5f}'.format(c.get_rate(code, 'EUR'))
             chart_data['datasets'].append({
                 'label': code,
                 'backgroundColor': config.CURR_COLORS[i],
-                'data': [rate]
+                'data': [price]
             })
             latest_currencies['currencies'].append({
                 'code': code,
                 'name': config.CURR_NAMES[i],
-                'data': rate
+                'data': price
             })
             """
             k = list(key)
