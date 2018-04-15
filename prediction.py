@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 # Heinz' source code - https://github.com/sebastianheinz/stockprediction
 
 # Import data
-data = pd.read_csv('data_stocks.csv')
+data = pd.read_csv('coindeskprices3yr.csv')
 
 # Drop date variable
-data = data.drop(['DATE'], 1)
+data = data.drop(['Date'], 1)
 
 # Dimensions of dataset
 n = data.shape[0]
@@ -23,7 +23,7 @@ data = data.values
 
 # Training and test data
 train_start = 0
-train_end = int(np.floor(0.8*n))
+train_end = int(np.floor(0.95*n))
 test_start = train_end + 1
 test_end = n
 data_train = data[np.arange(train_start, train_end), :]
@@ -108,7 +108,7 @@ mse_train = []
 mse_test = []
 
 # Run
-epochs = 10
+epochs = 100
 for e in range(epochs):
 
     # Shuffle training data
