@@ -5,7 +5,6 @@ from forex_python.bitcoin import BtcConverter
 
 r = redis.from_url(config.REDIS_URL)
 tic = 30.0
-starttime = time.time()
 latest_currencies = {
     'currencies':[]
 }
@@ -18,6 +17,9 @@ chart_data = {
 # Get the ASCII code values for the char's A-Y are 65-90.
 def rgbChar(c):
     return str(int((((ord(c)-65)/25)*255)))
+
+time.sleep(60 - datetime.datetime.now().second)
+starttime = time.time()
 
 while True:
     t = time.strftime("%H:%M:%S")
