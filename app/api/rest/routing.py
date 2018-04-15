@@ -6,11 +6,11 @@ http://flask-restful.readthedocs.io/en/latest/
 from flask import request
 from random import randint
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
+from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST
 
 import redis,json,threading,requests
 
-from config import REDIS_URL, REDIS_CHAN_CURR, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST
-from app.api.rest.listen import Listener
+#from app.api.rest.listen import Listener
 
 r = redis.from_url(REDIS_URL)
 #client = Listener(r, [REDIS_CHAN_CURR])
@@ -84,8 +84,6 @@ class ResourceFour(BaseResource):
         temp = r.get(REDIS_CHAN_LIST)
         if temp is None:
             return { 'error': 'Not Found' }, 404
-        # Prepare data. Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
         my_json = temp.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
-        # defaults to 200
         return data
