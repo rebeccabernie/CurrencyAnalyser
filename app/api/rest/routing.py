@@ -32,21 +32,6 @@ ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 """
 @rest_resource
 class ResourceOne(BaseResource):
-    """ api/currencies/latest/graph """
-    endpoints = ['/currencies/latest/graph']
-
-    def get(self):
-        temp = r.get(REDIS_CHAN_GRAPH)
-        if temp is None:
-            return { 'error': 'Not Found' }, 404
-        # Prepare data. Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
-        my_json = temp.decode('utf8')
-        data = json.loads(my_json)
-        # defaults to 200
-        return data
-
-@rest_resource
-class ResourceTwo(BaseResource):
     """ /api/currencies/list """
     endpoints = ['/currencies/list']
 
@@ -61,6 +46,20 @@ class ResourceTwo(BaseResource):
         """
         return { 'currencies': CURR_CODES }
 
+@rest_resource
+class ResourceTwo(BaseResource):
+    """ api/currencies/latest/graph """
+    endpoints = ['/currencies/latest/graph']
+
+    def get(self):
+        temp = r.get(REDIS_CHAN_GRAPH)
+        if temp is None:
+            return { 'error': 'Not Found' }, 404
+        # Prepare data. Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
+        my_json = temp.decode('utf8')
+        data = json.loads(my_json)
+        # defaults to 200
+        return data
 
 @rest_resource
 class ResourceThree(BaseResource):
