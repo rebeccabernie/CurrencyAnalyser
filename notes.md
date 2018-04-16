@@ -38,6 +38,8 @@ git add .
 git commit -m "[commit msg]"
 
 git push heroku master
+
+heroku ps:scale worker=1
 ```
 
 ## Mongo
@@ -123,7 +125,7 @@ During the implementation of this concept for handling data, we came upon the re
 
 **TODO:** look into RQ and schedular
 
-RQ was unsupported by windows, or any operating system that doesn't support the use of ```os.fork()``` (https://github.com/rq/rq/issues/226) for that matter.
+RQ is currently unsupported by windows, or any operating system that doesn't support the use of ```os.fork()``` (https://github.com/rq/rq/issues/226) for that matter.
 
 The schedular doesn't consistently call our pull data method every *n* seconds. Instead, it pulls the data in *n* seconds plus the time taken to carry out the said method. 
 
