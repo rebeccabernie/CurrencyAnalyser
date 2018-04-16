@@ -1,21 +1,19 @@
+# Import
 import tensorflow as tf
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
-# The following code is based on a tutorial by Sebastian Heinz
-# "A simple deep learning model for stock price prediction using TensorFlow" Medium article here - https://medium.com/mlreview/a-simple-deep-learning-model-for-stock-price-prediction-using-tensorflow-30505541d877
-# Heinz' source code - https://github.com/sebastianheinz/stockprediction
-
-# Data obtained from: https://bitcoincharts.com/charts/bitstampUSD#rg150zigHourlyzczsg2017-11-17zeg2018-04-16ztgSzm1g10zm2g25zv
-# Also a possibility: https://www.kaggle.com/mczielinski/bitcoin-historical-data
-
 # Import data
 data = pd.read_csv('btccsv5M.csv')
+#data = pd.read_csv('data_stocks.csv')
+
 
 # Drop date variable
 data = data.drop(['Date'], 1)
+#data = data.drop(['DATE'], 1)
+
 
 # Dimensions of dataset
 n = data.shape[0]
@@ -26,7 +24,7 @@ data = data.values
 
 # Training and test data
 train_start = 0
-train_end = int(np.floor(0.8*n))
+train_end = 3500
 test_start = train_end + 1
 test_end = n
 data_train = data[np.arange(train_start, train_end), :]
@@ -61,7 +59,6 @@ X = tf.placeholder(dtype=tf.float32, shape=[None, n_stocks])
 Y = tf.placeholder(dtype=tf.float32, shape=[None])
 
 # Initializers
-sigma = 1
 weight_initializer = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG", uniform=True)
 bias_initializer = tf.zeros_initializer()
 
@@ -106,16 +103,15 @@ line2, = ax1.plot(y_test * 0.5)
 plt.show()
 
 # Fit neural net
-batch_size = 256
+batch_size = 128
 mse_train = []
 mse_test = []
 
 # Run
-epochs = 20
+epochs = 10
 for e in range(epochs):
 
     # Shuffle training data
-    print("Training epoch" + str(e))
     shuffle_indices = np.random.permutation(np.arange(len(y_train)))
     X_train = X_train[shuffle_indices]
     y_train = y_train[shuffle_indices]
