@@ -44,8 +44,6 @@ heroku ps:scale worker=1
 
 ## NOTES FOR DISS
 
-### Web app
-
 - The web application consists of two seperate blueprints resgistered to the following URLs prefixes/subdomains: "" and "/api"
 - [Blueprints](http://flask.pocoo.org/docs/0.12/blueprints/) define a collection of behaviours, views, templates, static files and can be then used anywhere in the application.
 - Blueprints are used in this application to organize and seperate distinct components, in this case the client and the api.
@@ -64,7 +62,7 @@ heroku ps:scale worker=1
 - The data returned by the API is populated by background workers.
 - The background workers are used to pull data at an scheduled intervals of *n* seconds to pull data, and to train the ML model with the previous days result and to predict the end price for the current day. 
 - Initially, the api was act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. The scripts would publish the new values and the api listener threads would handle the data received. However during the implementation of this concept for handling data, we came upon the realization that the API would be unnecessarily dealing with Mongo. The web app only deals with the most recent data and could be optimized by being pre-formatted to suit the web application's data format requirements. The data from the API to the web application will be requested and constantly refreshed for the most recent currency data. It would be cumbersome to query Mongo and reformat the query result with every request. The scripts were already communicating with the API via Redis, it seemed optimal that the scripts handle mongo and use Redis solely to share the most recent data with the API. This would subsequently simplify the code and reduce the dependancies the scripts have on one another, e.g. the worker relies on the web application to save the data published, the worker needs to be ran to allow a clean shutdown of the web application. The web application's Heroku CPU allocation will no longer be competing with listener threads, and the management of Mongo will be abstracted from the API rather than delegated to it.
-- As the ML algorithm developed we realized it would no longer require the live currency data, meaning it was no longer neccessary to save the next to real time currency data to Mongo. Now this data will soley be used for live currency data displayed on web application.
+- As the ML algorithm developed we realized it would no longer require the live currency data, meaning it was no longer neccessary to save the next to real time currency data to Mongo. Now this data will soley be used for live currency data displayed on web application. 
 
 
 ## Mongo
