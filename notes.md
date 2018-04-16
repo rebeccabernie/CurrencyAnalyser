@@ -42,6 +42,26 @@ git push heroku master
 heroku ps:scale worker=1
 ```
 
+## NOTES FOR DISS
+
+### Web app
+
+- The web application consists of two seperate blueprints resgistered to the following URLs prefixes/subdomains: "" and "/api"
+- (Blueprints)[http://flask.pocoo.org/docs/0.12/blueprints/] define a collection of behaviours, views, templates, static files and can be then used anywhere in the application.
+- Blueprints are used in this application to organize and seperate distinct components, in this case the client and the api.
+
+- The client has the responsibility of serving the HTML files to the user, and can be accessed as such: https://currencyanalyser.herokuapp.com/
+- The client has one route, "/", that returns the single page web application. 
+- To be precise it returns the ```index.html``` file that links the built and minified Vue.js code in a script tag.
+- The single page web application consists of two pages:
+  * Home: root page with title. Accessed at: https://currencyanalyser.herokuapp.com/
+  * Dashboard: displays a collection of cards containing the different currency related data(prices/rates, ml predictions). Cards containing graphs were originally going to be rendered using D3.js. The D3 library is a fantastic data-driven approach to DOM manipulation. However, D3 was excessively sophisticated for it's use being soley to create dynamic graphs. Chart.js is a simple but powerful data visualization library, that serves our purposes perfectly. Accessed at: https://currencyanalyser.herokuapp.com/#/dashboard
+  * About: details about the team, project and contact details. Accessed at https://currencyanalyser.herokuapp.com/#/about
+  * Error: any URL containing the domain that is not mentioned above, will be mapped here. Accessed at https://currencyanalyser.herokuapp.com/#/[not mentioned above]
+
+- The api has the responsibility of returning machine learning and currency data, and can be accessed as such: https://currencyanalyser.herokuapp.com/api/
+
+
 ## Mongo
 
 (Heroku MongoLab Sandbox)[https://elements.heroku.com/addons/mongolab] (the only free version available as a Heroku addon) has only 496 MB worth of storage. Constantly updating Currency prices being saved to the database accumulates a vast amount of space. 
@@ -54,10 +74,12 @@ What we need to save:
 + Machine learning data.
 + Currency data needed for ML.
 
+UPDATE: we will no longer be saving the next to real time currency data to mongo. It is no longer required to use this data for the ML. Now this data will soley be used for live currency data displayed on web app.
+
 ## Background Scripts
 
-```worker``` pulling currency data.
-```purge``` removing data.
+1. pulling currency data.
+2. removing data.
 
 Either can add or delete from DB directly.
 
