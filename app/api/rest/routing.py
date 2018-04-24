@@ -48,7 +48,7 @@ class ResourceTwo(BaseResource):
         if temp is None:
             return { 'error': 'Not Found' }, 404
         # Prepare data. Adapted from: https://stackoverflow.com/questions/40059654/python-convert-a-bytes-array-into-json-format
-        my_json = temp.decode('utf8')
+        my_json = temp.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
         # defaults to 200
         return data
@@ -62,7 +62,7 @@ class ResourceThree(BaseResource):
         temp = r.get(REDIS_CHAN_GRAPH)
         if temp is None:
             return { 'error': 'Not Found' }, 404
-        my_json = temp.decode('utf8')
+        my_json = temp.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
         # https://medium.com/@happymishra66/lambda-map-and-filter-in-python-4935f248593
         data['datasets'] = list(filter(lambda x : x['label'] == curr_one or x['label'] == curr_two, data['datasets']))

@@ -6,22 +6,26 @@ from forex_python.bitcoin import BtcConverter
 r = redis.from_url(config.REDIS_URL)
 tic = 30.0
 latest_currencies = {
-    'currencies':[]
+    'currencies': []
 }
 chart_data = {
-        'labels': [],
-        'datasets': []
-        }
+    'labels': [],
+    'datasets': []
+}
+
+"""
+Hard coded list of colours instead to ensure colour diversity. 
 
 # Generate a unique colour based on unique currency code.
 # Get the ASCII code values for the char's A-Y are 65-90.
 def rgbChar(c):
     return str(int((((ord(c)-65)/25)*255)))
+"""
 
 time.sleep(60 - datetime.datetime.now().second)
 starttime = time.time()
 
-while True:
+def pullData():
     t = time.strftime("%H:%M:%S")
     print("Starting at number: " + str(datetime.datetime.utcnow()))
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
@@ -70,12 +74,12 @@ while True:
                 'data': price
             })
 
-    latest = json.dumps(latest_currencies)
-    chart = json.dumps(chart_data)
-
     r.set(config.REDIS_CHAN_LIST, latest_currencies)
-    r.set(config.REDIS_CHAN_GRAPH, chart)
+    r.set(config.REDIS_CHAN_GRAPH, chart_data)#chart)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))
+
+while True:
+    pullData()
     # Adapted from: https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python/38317060
     time.sleep(tic - ((time.time() - starttime) % tic))
