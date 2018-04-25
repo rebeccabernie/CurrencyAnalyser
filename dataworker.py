@@ -75,7 +75,7 @@ def pullData():
             })
 
     r.set(config.REDIS_CHAN_LIST, latest_currencies)
-    r.set(config.REDIS_CHAN_GRAPH, chart_data)#chart)
+    r.set(config.REDIS_CHAN_GRAPH, chart_data)
     
     print("Finishing at number: " + str(datetime.datetime.utcnow()))
 
