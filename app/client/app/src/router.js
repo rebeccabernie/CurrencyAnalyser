@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import SubNavbar from './components/SubNavbar'
 
 import Dashboard from './views/Dashboard'
+import Error from './views/Error'
 import PageTwo from './views/PageTwo'
 
 /*
@@ -46,7 +47,11 @@ export default new Router({
     */
     {
       path: '/*',
-      redirect: '/' 
+      components: {
+        navbar: Navbar,
+        subnavbar: SubNavbar,
+        main: Error
+      } 
     }
   ]
 })
