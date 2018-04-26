@@ -8,12 +8,19 @@
         </p>
       </header>
       <div class="card-content">
-        <select v-model="curr_1">
-            <option v-for="c in currencies">{{ c }}</option>
-        </select>
-        <select v-model="curr_2">
-            <option v-for="c in currencies">{{ c }}</option>
-        </select>
+        <div class="container-select">
+          <div class="select right">
+            <select class="select-small" v-model="curr_1">
+                <option v-for="c in currencies">{{ c }}</option>
+            </select>
+          </div>
+          <div class="select left">
+            <select v-model="curr_2">
+                <option v-for="c in currencies">{{ c }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="clear" ></div>
         <line-chart :chart-data="chartData" :options="options"></line-chart>
       </div>
     </div>
@@ -89,19 +96,24 @@ export default {
 </script>
 
 <style>
+.select-small{ height: 30px; }
+.select select { font-size: 13px; height: 2em; color: #363636 }
+.select:not(.is-multiple)::after { margin-top: -0.7em; margin-right: -0.3em; }
+.right{ float: right; }
+.left{ float: left; }
+.clear{ clear:both; }
+.container-select{ width: calc(100% - 15px); margin: 0 auto; }
 
 .tooltip {
   display: block !important;
   z-index: 10000;
 }
-
 .tooltip .tooltip-inner {
   background: black;
   color: white;
   border-radius: 16px;
   padding: 5px 10px 4px;
 }
-
 .tooltip .tooltip-arrow {
   width: 0;
   height: 0;
@@ -110,11 +122,7 @@ export default {
   margin: 5px;
   border-color: black;
 }
-
-.tooltip[x-placement^="top"] {
-  margin-bottom: 5px;
-}
-
+.tooltip[x-placement^="top"] { margin-bottom: 5px; }
 .tooltip[x-placement^="top"] .tooltip-arrow {
   border-width: 5px 5px 0 5px;
   border-left-color: transparent !important;
@@ -125,15 +133,8 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
-
-.tooltip-arrow{
-  top: calc(50% + 15px);
-}
-
-.tooltip[x-placement^="bottom"] {
-  margin-top: 5px;
-}
-
+.tooltip-arrow{ top: calc(50% + 15px); }
+.tooltip[x-placement^="bottom"] { margin-top: 5px; }
 .tooltip[x-placement^="bottom"] .tooltip-arrow {
   border-width: 0 5px 5px 5px;
   border-left-color: transparent !important;
@@ -144,11 +145,7 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
-
-.tooltip[x-placement^="right"] {
-  margin-left: 5px;
-}
-
+.tooltip[x-placement^="right"] { margin-left: 5px; }
 .tooltip[x-placement^="right"] .tooltip-arrow {
   border-width: 5px 5px 5px 0;
   border-left-color: transparent !important;
@@ -159,11 +156,7 @@ export default {
   margin-left: 0;
   margin-right: 0;
 }
-
-.tooltip[x-placement^="left"] {
-  margin-right: 5px;
-}
-
+.tooltip[x-placement^="left"] { margin-right: 5px; }
 .tooltip[x-placement^="left"] .tooltip-arrow {
   border-width: 5px 0 5px 5px;
   border-top-color: transparent !important;
@@ -174,17 +167,6 @@ export default {
   margin-left: 0;
   margin-right: 0;
 }
-
-.tooltip[aria-hidden='true'] {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity .15s, visibility .15s;
-}
-
-.tooltip[aria-hidden='false'] {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity .15s;
-}
-
+.tooltip[aria-hidden='true'] { visibility: hidden; opacity: 0; transition: opacity .15s, visibility .15s; }
+.tooltip[aria-hidden='false'] { visibility: visible; opacity: 1; transition: opacity .15s; }
 </style>

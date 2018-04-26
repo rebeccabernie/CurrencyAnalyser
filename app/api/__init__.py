@@ -2,7 +2,7 @@
 
 import os
 from flask import Flask, Blueprint, session
-from flask_restful import Api
+from flask_restplus import Api
 
 api_bp = Blueprint('api_bp', __name__,
                    template_folder='templates',
@@ -18,6 +18,5 @@ def add_header(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return response
 
-from app.api import views
 from app.api.rest import routing
 

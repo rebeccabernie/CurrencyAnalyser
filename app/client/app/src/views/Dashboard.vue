@@ -2,8 +2,15 @@
   <section>
 
     <div class="container">
-      <live-currency-graph style="width:74.5%; float:left"/>
-      <live-currency-list style="width:24.5%; float:right"/>
+      <div style="width:100%; height:532px;">
+        <live-currency-graph style="width:74.5%; float:right; display:block;height: inherit;"/>
+        <live-currency-list style="width:24.5%; float:left; display:block;height: inherit;"/>
+      </div>
+      <div class="spacer"></div>
+      <div style="width:100%; height:520px;">
+        <ml-btc style="height: inherit;"/>
+      </div>
+      <div class="spacer"></div>
     </div>
 
   </section>
@@ -11,6 +18,7 @@
 <script>
 import LiveCurrencyGraph from '../components/LiveCurrencyGraph'
 import LiveCurrencyList from '../components/LiveCurrencyList'
+import MLBTC from '../components/MLBTC'
 /*
 The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will
 consist of cards to display the:
@@ -29,11 +37,18 @@ export default {
   name: 'Property',
   components: {
     'live-currency-graph': LiveCurrencyGraph,
-    'live-currency-list': LiveCurrencyList
+    'live-currency-list': LiveCurrencyList,
+    'ml-btc': MLBTC
   }
 }
 </script>
 
-<style lang="sass" scoped>
+<style>
+
+.spacer {
+  clear: both;
+  height: 30px;
+  display: block;
+}
 
 </style>

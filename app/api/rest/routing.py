@@ -4,9 +4,8 @@ REST API Resource Routing
 http://flask-restful.readthedocs.io/en/latest/
 """
 from flask import request
-from random import randint
 from app.api.rest.base import BaseResource, SecureResource, rest_resource
-from config import REDIS_URL, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES
+from config import REDIS_URL, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES, REDIS_CHAN_ML_BTC_GRAPH, REDIS_CHAN_ML_BTC
 
 import redis,json,threading,requests
 
@@ -80,3 +79,28 @@ class ResourceFour(BaseResource):
         my_json = temp.decode('utf8').replace("'", '"')
         data = json.loads(my_json)
         return data
+
+@rest_resource
+class ResourceFive(BaseResource):
+    """ api/ml/btc/graph """
+    endpoints = ['/ml/btc/graph']
+
+    def get(self):
+        temp = r.get(REDIS_CHAN_ML_BTC_GRAPH)
+        if temp is None:
+            return { 'error': 'Not Found' }, 404
+        my_json = temp.decode('utf8').replace("'", '"')
+        data = json.loads(my_json)
+        return data
+
+@rest_resource
+class ResourceSix(BaseResource):
+    """ api/ml/btc """
+    endpoints = ['/ml/btc']
+
+    def get(self):
+        temp = r.get(REDIS_CHAN_ML_BTC)
+        if temp is None:
+            return { 'error': 'Not Found' }, 404
+        data = temp.decode('utf8')
+        return {'prediction': data }

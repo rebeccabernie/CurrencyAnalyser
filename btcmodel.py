@@ -2,13 +2,15 @@ import pandas as pd
 from datetime import date, timedelta
 from model import build_model
 import numpy as np
+import pymongo, config
 
 class BTCModel:
     # Change this value if you want to make longer/shorter prediction, i.e. number of days.
     pred_range, window_len = 1, 1
     prediction, predict_inputs, predict_data = None, None, None
 
-    def __init__(self):
+    def __init__(self, m, r):
+        self.m, self.r = m, r
         # Pull past data, starting from 01/01/2016 (Data is inconsistent before then) -> two days ago.
         # Bitcoin market info: "Date", "Open", "High", "Low", "Close", "Volume", "Market Cap". 
         btc_past = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20160101&end="+(date.today() - timedelta(3)).strftime("%Y%m%d"))[0] 
@@ -43,8 +45,9 @@ class BTCModel:
         np.random.seed(202)
         # Initialise model architecture and train model with training set.
         self.bt_model = build_model(LSTM_training_inputs, output_size=self.pred_range, neurons = 20)
+        """ TODO: change epochs to 25 """
         self.bt_model.fit(LSTM_training_inputs[:-self.pred_range], LSTM_training_outputs, 
-                                    epochs=25, batch_size=1, verbose=2, shuffle=True)
+                                    epochs=5, batch_size=1, verbose=2, shuffle=True)
    
     def predict(self, day):
         # Aquire and prepare data.
@@ -66,16 +69,39 @@ class BTCModel:
             self.predict_inputs = [np.array(self.predict_inputs) for self.predict_inputs in self.predict_inputs]
             self.predict_inputs = np.array(self.predict_inputs)
             self.prediction = (self.bt_model.predict(self.predict_inputs, batch_size=1)+1)*m_data['bt_Close'].values.reshape(1,1)
+            if(self.prediction != None):
+                self.r.set(config.REDIS_CHAN_ML_BTC, round(self.prediction[0][0], 2))
 
     def getPrediction(self):
         return self.prediction
     
     def train(self):
-        day = (date.today() - timedelta(1)).strftime("%Y%m%d")
+        """ TODO: CHANGE TO 1! """
+        day = (date.today() - timedelta(2)).strftime("%Y%m%d")
         btc_day = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start="+day+"&end="+day)[0]
         if btc_day.iloc[0]['Date'] != 'No data was found for the selected time period.':
-            predict_outputs = [[(btc_day.iloc[0]['Close']/self.predict_data.iloc[0]['bt_Close'])-1]]
-            predict_outputs = np.array(predict_outputs)
-            test = self.bt_model.train_on_batch(self.predict_inputs, predict_outputs)
-            print(test)
-            self.prediction, self.predict_inputs, self.predict_data = None, None, None
+            if (self.prediction != None):
+                predict_outputs = [[(btc_day.iloc[0]['Close']/self.predict_data.iloc[0]['bt_Close'])-1]]
+                predict_outputs = np.array(predict_outputs)
+                self.bt_model.train_on_batch(self.predict_inputs, predict_outputs)
+                self.m.db.doc.insert({
+                    "date" : date.today().strftime("%Y-%m-%d"),
+                    "currency" : "btc",
+                    "prediction" : round(self.prediction[0][0], 2),
+                    "actual" : round(btc_day.iloc[0]['Close'], 2)
+                })
+                self.prediction, self.predict_inputs, self.predict_data = None, None, None
+    def refreshchart(self):
+        chart_data = {
+            'labels': [],
+            'datasets': [
+                { 'label': 'prediction', 'backgroundColor': 'rgba(41, 244, 170, 0.75)', 'data': [] },
+                { 'label': 'actual', 'backgroundColor': 'rgba(186, 65, 67, 0.75)', 'data': [] }
+            ]
+        }
+        cursor = self.m.db.doc.find().sort('date', pymongo.DESCENDING).limit(20)
+        for doc in cursor:
+            chart_data['labels'].insert(0, doc['date'])
+            chart_data['datasets'][0]['data'].insert(0, doc['prediction'])
+            chart_data['datasets'][1]['data'].insert(0, doc['actual'])
+        self.r.set(config.REDIS_CHAN_ML_BTC_GRAPH, chart_data)

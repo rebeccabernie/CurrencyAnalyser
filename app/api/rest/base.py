@@ -1,6 +1,7 @@
 """ API Backend - Base Resource Models """
 
-from flask_restful import Resource, abort
+#from flask_restful import Resource, abort
+from flask_restplus import Resource, abort
 
 from app.api import api_rest
 from app.api.security import validate_args
@@ -8,18 +9,6 @@ from app.api.security import validate_args
 class BaseResource(Resource):
 
     def get(self, *args, **kwargs):
-        abort(405)
-
-    def post(self, *args, **kwargs):
-        abort(405)
-
-    def put(self, *args, **kwargs):
-        abort(405)
-
-    def patch(self, *args, **kwargs):
-        abort(405)
-
-    def delete(self, *args, **kwargs):
         abort(405)
 
 class SecureResource(BaseResource):

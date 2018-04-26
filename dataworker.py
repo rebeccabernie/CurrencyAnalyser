@@ -1,4 +1,4 @@
-import redis, json, time, datetime, schedule, os, config
+import redis, json, time, datetime, config
 from forex_python.converter import CurrencyRates
 from forex_python.converter import CurrencyCodes
 from forex_python.bitcoin import BtcConverter
