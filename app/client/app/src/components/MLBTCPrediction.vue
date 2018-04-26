@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     getPrediction () {
-      HTTP.get(`/ml/btc`)
+      HTTP.get(`/currencies/ml/btc`)
         .then((response) => {
           this.prediction = response.data.prediction
         }, (error) => {

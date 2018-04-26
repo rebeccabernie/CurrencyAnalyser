@@ -4,16 +4,42 @@ REST API Resource Routing
 http://flask-restful.readthedocs.io/en/latest/
 """
 from flask import request
-from app.api.rest.base import BaseResource, SecureResource, rest_resource
+from app.api import api_rest
+from flask_restplus import Resource, abort, fields
+from app.api.rest.base import BaseResource, rest_resource
 from config import REDIS_URL, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES, REDIS_CHAN_ML_BTC_GRAPH, REDIS_CHAN_ML_BTC
 
 import redis,json,threading,requests
 
-#from app.api.rest.listen import Listener
-
 r = redis.from_url(REDIS_URL)
-#client = Listener(r, [REDIS_CHAN_CURR])
-#client.start()
+
+pred = api_rest.model('Prediction', {
+    'prediction': fields.String(description='prediction'),
+})
+cdataset = api_rest.model('CurrencyData', {
+    'label': fields.String(description='currency'),
+    'backgroundColor': fields.String(description='color'),
+    'data': fields.List(fields.Float, description='prices')
+})
+cgraph = api_rest.model('CurrencyGraph', {
+    'labels': fields.List(fields.Float, description='dates'),
+    'datasets': fields.List(fields.Nested(cdataset))
+})
+currency = api_rest.model('Currency', {
+    'code': fields.String(description='currencycode'),
+    'name': fields.String(description='currency'),
+    'symbol': fields.String(description='symbol'),
+    'data': fields.Float(description='rate')
+})
+clist = api_rest.model('CurrencyList', {
+    'currencies': fields.List(fields.String, description='currencies')
+})
+clatestlist = api_rest.model('CurrencyLastestList', {
+    'currencies': fields.List(fields.Nested(currency), description='currencies')
+})
+error = api_rest.model('Error', {
+    'error': fields.String(description='error'),
+})
 
 """ 
 TODO: stream route here 
@@ -32,16 +58,22 @@ ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 @rest_resource
 class ResourceOne(BaseResource):
     """ /api/currencies/list """
-    endpoints = ['/currencies/list']
+    endpoints = ['/list']
 
+    @api_rest.doc('get_currencies')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', clist)
     def get(self):
         return { 'currencies': CURR_CODES }
 
 @rest_resource
 class ResourceTwo(BaseResource):
     """ api/currencies/latest/graph """
-    endpoints = ['/currencies/latest/graph']
+    endpoints = ['/latest/graph']
 
+    @api_rest.doc('get_latest_graph')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', cgraph)
     def get(self):
         temp = r.get(REDIS_CHAN_GRAPH)
         if temp is None:
@@ -55,8 +87,11 @@ class ResourceTwo(BaseResource):
 @rest_resource
 class ResourceThree(BaseResource):
     """ /api/currencies/latest/graph """
-    endpoints = ['/currencies/latest/graph/<string:curr_one>/<string:curr_two>']
+    endpoints = ['/latest/graph/<string:curr_one>/<string:curr_two>']
 
+    @api_rest.doc('get_latest_graph_two')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', cgraph)
     def get(self, curr_one, curr_two):
         temp = r.get(REDIS_CHAN_GRAPH)
         if temp is None:
@@ -70,8 +105,11 @@ class ResourceThree(BaseResource):
 @rest_resource
 class ResourceFour(BaseResource):
     """ api/currencies/latest/list """
-    endpoints = ['/currencies/latest/list']
+    endpoints = ['/latest/list']
 
+    @api_rest.doc('get_latest_currencies')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', clatestlist)
     def get(self):
         temp = r.get(REDIS_CHAN_LIST)
         if temp is None:
@@ -85,6 +123,9 @@ class ResourceFive(BaseResource):
     """ api/ml/btc/graph """
     endpoints = ['/ml/btc/graph']
 
+    @api_rest.doc('get_ml_btc_graph')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', cgraph)
     def get(self):
         temp = r.get(REDIS_CHAN_ML_BTC_GRAPH)
         if temp is None:
@@ -98,6 +139,9 @@ class ResourceSix(BaseResource):
     """ api/ml/btc """
     endpoints = ['/ml/btc']
 
+    @api_rest.doc('get_ml_btc')
+    @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(200, 'Success', pred)
     def get(self):
         temp = r.get(REDIS_CHAN_ML_BTC)
         if temp is None:

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     fillData () {
-      HTTP.get('/ml/btc/graph')
+      HTTP.get('/currencies/ml/btc/graph')
         .then((response) => {
           this.chartData = response.data
         }, (error) => {

@@ -8,7 +8,8 @@ api_bp = Blueprint('api_bp', __name__,
                    template_folder='templates',
                    url_prefix='/api')
 
-api_rest = Api(api_bp)
+api_r = Api(api_bp)
+api_rest = api_r.namespace('currencies', description='Currency data')
 
 # OPTIONAL
 @api_bp.after_request
