@@ -13,7 +13,7 @@ class BTCModel:
         self.m, self.r = m, r
         # Pull past data, starting from 01/01/2016 (Data is inconsistent before then) -> two days ago.
         # Bitcoin market info: "Date", "Open", "High", "Low", "Close", "Volume", "Market Cap". 
-        btc_past = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20160101&end="+(date.today() - timedelta(3)).strftime("%Y%m%d"))[0] 
+        btc_past = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20160101&end="+(date.today() - timedelta(2)).strftime("%Y%m%d"))[0] 
         # Convert the date string to the datetime format, "Volume" to an integer and rename columns.
         btc_past = btc_past.assign(Date=pd.to_datetime(btc_past['Date']))
         btc_past['Volume'] = btc_past['Volume'].astype('int64')
@@ -76,15 +76,14 @@ class BTCModel:
         return self.prediction
     
     def train(self):
-        """ TODO: CHANGE TO 1! """
-        day = (date.today() - timedelta(2)).strftime("%Y%m%d")
+        day = (date.today() - timedelta(1)).strftime("%Y%m%d")
         btc_day = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start="+day+"&end="+day)[0]
         if btc_day.iloc[0]['Date'] != 'No data was found for the selected time period.':
             if (self.prediction != None):
                 predict_outputs = [[(btc_day.iloc[0]['Close']/self.predict_data.iloc[0]['bt_Close'])-1]]
                 predict_outputs = np.array(predict_outputs)
                 self.bt_model.train_on_batch(self.predict_inputs, predict_outputs)
-                self.m.db.doc.insert({
+                self.m.db.ml.insert({
                     "date" : date.today().strftime("%Y-%m-%d"),
                     "currency" : "btc",
                     "prediction" : round(self.prediction[0][0], 2),
@@ -99,7 +98,7 @@ class BTCModel:
                 { 'label': 'actual', 'backgroundColor': 'rgba(186, 65, 67, 0.75)', 'data': [] }
             ]
         }
-        cursor = self.m.db.doc.find().sort('date', pymongo.DESCENDING).limit(20)
+        cursor = self.m.db.ml.find().sort('date', pymongo.DESCENDING).limit(20)
         for doc in cursor:
             chart_data['labels'].insert(0, doc['date'])
             chart_data['datasets'][0]['data'].insert(0, doc['prediction'])

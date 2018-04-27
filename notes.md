@@ -27,7 +27,7 @@ Make sure ```baseURL```  variable in the axios object named ```HTTP``` is set to
 **In the ```app/client/app``` directory:**
 
 ```
-npm build
+npm run build
 ```
 
 **In the ```root``` directory:**
@@ -213,6 +213,20 @@ E.g.
         ]
       }
 ```
+
+# Future ambitions
+
+SEEs
+
+ref: https://stephennewey.com/realtime-websites-with-flask/
+
+Why Server-Sent Event(SEE) Stream?
+Websockets(WSs) are often favoured over SEEs as they provide a protocol surpassing that of SEEs. 
+WSs provide bi-directional, full-duplex communication between the server and client.
+However, this is only significant when two way communication is required.
+For data that does not need to be sent from the client, traditional HTTP SEEs, that do not implement full-duplex communication and the subsequent new WS servers to handle this connection, are ideal.
+Also, SSEs have a number of functionalities that WSs lack, such as automatic reconnection.
+ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 
 ### About page
 

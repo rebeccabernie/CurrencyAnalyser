@@ -1,2 +1,3 @@
 web: gunicorn app:app --log-file -
-worker: python worker.py
+urgentworker: python dataworker.py
+worker: python mlworker.py
