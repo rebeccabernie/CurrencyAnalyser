@@ -11,6 +11,9 @@
         <ml-btc style="height: inherit;"/>
       </div>
       <div class="spacer"></div>
+        <a class="repo" href="https://github.com/rebeccabernie/CurrencyAnalyser" v-tooltip.top-center="'Repository'">
+            <img src="../assets/img/git.png"/>
+        </a>
     </div>
 
   </section>
@@ -47,4 +50,6 @@ export default {
 .spacer { clear: both; height: 30px; display: block; }
 .right{ float: right; }
 .left{ float: left; }
+.repo{ margin: 0 auto; display: block; }
+.repo, .repo img{ height: 35px; width: 35px; }
 </style>

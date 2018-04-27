@@ -4,7 +4,7 @@
       <!--<a class="navbar-item" href="#">
         <img src="../assets/img/logo.png">
       </a>-->
-      <a class="center" href="#">
+      <a class="center" href="#/">
         Currency Analyser
       </a>
     </div>
@@ -34,7 +34,7 @@ export default {
   width: 100%;
 }
 .navbar .center {
-  color:#f8f8f8f8;
+  color:#f9f9f9f9;
   font-size: 1.25rem;
   margin: auto;
 }
@@ -42,27 +42,3 @@ export default {
   color:#fff;
 }
 </style>
-
-<!--
-<style lang="sass" scoped>
-
-nav.navbar
-  min-height: none
-  background-color: $nav-background
-  border-bottom: solid 1px #dbdbdb
-
-.navbar-brand > .navbar-item
-  color: #fff
-  padding-left: 10px
-  margin: 0 auto
-
-.navbar-brand
-  a
-    &:hover
-      color:yellow
-
-  img
-    height: 15px
-</style>
--->
-

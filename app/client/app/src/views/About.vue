@@ -1,6 +1,5 @@
 <template>
   <section>
-    
     <div class="team">
         <h3>Team</h3>
         <div class="member">
@@ -30,7 +29,7 @@
               <li>A prediction of Bitcoin’s close price for the current day. Also provided is a comparison of past predictions, along with the corresponding actual close prices.</li>
           </ul>
           <br>
-          <small class="footnote">Applied Project and Dissertation, (Honours) Software Development, Galway-Mayo Intstitue of Technology.</small>
+         Applied Project and Dissertation, (Honours) Software Development, Galway-Mayo Intstitue of Technology.
         </div>
       </div>
     </div>
@@ -45,38 +44,19 @@
 <script>
 
 export default {
-  name: 'About',
-  data () {
-    return {
-      title: 'new user form'
-    }
-  },
-  methods: {
-    someMethod () {
-      // Do Something
-    }
-  },
-  mounted () {
-    // Do something
-  }
+  name: 'About'
 }
 </script>
 <style>
 
 .spacer { clear: both; height: 30px; display: block; }
-.footnote { color: sandybrown; }
+.spacer-small { clear: both; height: 10px; display: block; }
 .team{
     width: 175px;
     margin: 0 auto;
 }
-.repo{
-    margin: 0 auto;
-    display: block;
-}
-.repo, .repo img{
-    height: 35px;
-    width: 35px;
-}
+.repo{ margin: 0 auto; display: block; }
+.repo, .repo img{ height: 35px; width: 35px; }
 .team h3{
     font-weight: 700;
     padding: 0.75rem;
@@ -93,6 +73,22 @@ export default {
  width: 75px;
 }
 .team .member a{
+ height: 75px;
+ width: 75px;
+}
+.team-info{
+    width:75px;
+    display: block;
+    margin: 0 auto;
+}
+.team-info img{
+ -webkit-border-radius: 50%;
+ -moz-border-radius: 50%;
+ border-radius: 50%;
+ height: 75px;
+ width: 75px;
+}
+.team-info a{
  height: 75px;
  width: 75px;
 }

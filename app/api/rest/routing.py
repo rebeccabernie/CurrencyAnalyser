@@ -19,17 +19,17 @@ pred = api_rest.model('Prediction', {
 cdataset = api_rest.model('CurrencyData', {
     'label': fields.String(description='currency'),
     'backgroundColor': fields.String(description='color'),
-    'data': fields.List(fields.Float, description='prices')
+    'data': fields.List(fields.String, description='prices')
 })
 cgraph = api_rest.model('CurrencyGraph', {
-    'labels': fields.List(fields.Float, description='dates'),
+    'labels': fields.List(fields.String, description='dates'),
     'datasets': fields.List(fields.Nested(cdataset))
 })
 currency = api_rest.model('Currency', {
     'code': fields.String(description='currencycode'),
     'name': fields.String(description='currency'),
     'symbol': fields.String(description='symbol'),
-    'data': fields.Float(description='rate')
+    'data': fields.String(description='rate')
 })
 clist = api_rest.model('CurrencyList', {
     'currencies': fields.List(fields.String, description='currencies')
