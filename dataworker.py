@@ -43,9 +43,9 @@ def pullData():
     if chart_data['datasets']:
         for i, code in enumerate(config.CURR_CODES):
             if code == 'BTC':
-                price = '{0:.5f}'.format(b.get_latest_price('EUR'))
+                price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
             else:
-                price = '{0:.5f}'.format(c.get_rate(code, 'EUR'))
+                price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
             chart_data['datasets'][i]['data'].append(price)
             latest_currencies['currencies'][i]['data'] = price
             if pop:
@@ -57,11 +57,11 @@ def pullData():
             if code == 'BTC':
                 symbol = b.get_symbol()
                 name = 'Bitcoin'
-                price = '{0:.5f}'.format(b.get_latest_price('EUR'))
+                price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
             else:
                 name = co.get_currency_name(code)
                 symbol = co.get_symbol(code)
-                price = '{0:.5f}'.format(c.get_rate(code, 'EUR'))
+                price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
             chart_data['datasets'].append({
                 'label': code,
                 'backgroundColor': config.CURR_COLORS[i],
