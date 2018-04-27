@@ -1,11 +1,11 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="#">
+      <!--<a class="navbar-item" href="#">
         <img src="../assets/img/logo.png">
-      </a>
-      <a class="navbar-item" href="#">
-        Flask-Vue
+      </a>-->
+      <a class="center" href="#">
+        Currency Analyser
       </a>
     </div>
     <div class="navbar-menu">
@@ -26,7 +26,24 @@ export default {
   }
 }
 </script>
+<style>
+.navbar {
+  background: #363636;
+}
+.navbar-brand{
+  width: 100%;
+}
+.navbar .center {
+  color:#f8f8f8f8;
+  font-size: 1.25rem;
+  margin: auto;
+}
+.navbar .center:hover {
+  color:#fff;
+}
+</style>
 
+<!--
 <style lang="sass" scoped>
 
 nav.navbar
@@ -35,9 +52,17 @@ nav.navbar
   border-bottom: solid 1px #dbdbdb
 
 .navbar-brand > .navbar-item
+  color: #fff
   padding-left: 10px
+  margin: 0 auto
+
+.navbar-brand
+  a
+    &:hover
+      color:yellow
 
   img
     height: 15px
-
 </style>
+-->
+

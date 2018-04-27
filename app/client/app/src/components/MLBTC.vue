@@ -29,6 +29,4 @@ export default {
 </script>
 
 <style>
-.right{ float: right; }
-.left{ float: left; }
 </style>

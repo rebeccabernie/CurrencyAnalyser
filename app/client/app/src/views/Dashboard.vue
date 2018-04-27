@@ -44,11 +44,7 @@ export default {
 </script>
 
 <style>
-
-.spacer {
-  clear: both;
-  height: 30px;
-  display: block;
-}
-
+.spacer { clear: both; height: 30px; display: block; }
+.right{ float: right; }
+.left{ float: left; }
 </style>

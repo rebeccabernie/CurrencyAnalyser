@@ -39,7 +39,6 @@ export default {
 }
 </script>
 <style>
-.spacer { clear: both; height: 30px; display: block; }
 .btc-ml{ text-align: center; }
 .btc-ml-icon{ height: 100px; width:100px; margin: 0 auto; display: block; }
 .btc-ml-title{ color: #363636; font-weight: bold; font-size: .85rem; }
