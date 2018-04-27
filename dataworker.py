@@ -1,4 +1,5 @@
 import redis, json, time, datetime, config
+from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
 from forex_python.converter import CurrencyCodes
 from forex_python.bitcoin import BtcConverter
@@ -31,6 +32,8 @@ def pullData():
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
     c = CurrencyRates()
     b = BtcConverter()
+    data = c.get_rates(config.LOCAL_CURR_CODE)
+    rates = DictHelper(data)
     pop = False
 
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
@@ -44,10 +47,12 @@ def pullData():
         for i, code in enumerate(config.CURR_CODES):
             if code == 'BTC':
                 price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
+                rate = '{0:.5f}'.format(b.convert_to_btc(1, config.LOCAL_CURR_CODE))
             else:
                 price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
+                rate = '{0:.5f}'.format(rates[chart_data['datasets'][i]['label']])
             chart_data['datasets'][i]['data'].append(price)
-            latest_currencies['currencies'][i]['data'] = price
+            latest_currencies['currencies'][i]['data'] = rate
             if pop:
                 chart_data['datasets'][i]['data'].pop(0)
     else:
@@ -58,10 +63,12 @@ def pullData():
                 symbol = b.get_symbol()
                 name = 'Bitcoin'
                 price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
+                rate = '{0:.5f}'.format(b.convert_to_btc(1, config.LOCAL_CURR_CODE))
             else:
                 name = co.get_currency_name(code)
                 symbol = co.get_symbol(code)
                 price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
+                rate = '{0:.5f}'.format(rates[code])
             chart_data['datasets'].append({
                 'label': code,
                 'backgroundColor': config.CURR_COLORS[i],
@@ -71,7 +78,7 @@ def pullData():
                 'code': code,
                 'name': name,
                 'symbol': symbol,
-                'data': price
+                'data': rate
             })
 
     r.set(config.REDIS_CHAN_LIST, latest_currencies)
