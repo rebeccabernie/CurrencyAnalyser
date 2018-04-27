@@ -1,5 +1,4 @@
 import redis, json, time, datetime, config
-from dicthelper import DictHelper
 from forex_python.converter import CurrencyRates
 from forex_python.converter import CurrencyCodes
 from forex_python.bitcoin import BtcConverter
@@ -27,13 +26,13 @@ time.sleep(60 - datetime.datetime.now().second)
 starttime = time.time()
 
 def pullData():
-    t = time.strftime("%H:%M:%S")
+    t = '{:%H:%M:%S}'.format(datetime.datetime.now() + datetime.timedelta(hours=1))
+    #t = time.strftime("%H:%M:%S")
     print("Starting at number: " + str(datetime.datetime.utcnow()))
     # Using forex to get latest data: https://media.readthedocs.org/pdf/forex-python/latest/forex-python.pdf
     c = CurrencyRates()
     b = BtcConverter()
-    data = c.get_rates(config.LOCAL_CURR_CODE)
-    rates = DictHelper(data)
+    rates = c.get_rates(config.LOCAL_CURR_CODE)
     pop = False
 
     # Adapted from: https://stackoverflow.com/questions/30071886/how-to-get-current-time-in-python-and-break-up-into-year-month-day-hour-minu
