@@ -7,7 +7,6 @@ import SubNavbar from './components/SubNavbar'
 import Dashboard from './views/Dashboard'
 import About from './views/About'
 import Error from './views/Error'
-import PageTwo from './views/PageTwo'
 
 /*
  Integrating the Vue Router into a Vue application, where we are already composing our application with components,
@@ -40,11 +39,7 @@ export default new Router({
     },
     /*
      https://github.com/vuejs/vue-router/issues/866
-     Any invalid route, i.e. routes not specified above, will be redirected to the root path.
-    */
-
-    /*
-     TODO: create and redirect to error page.
+     Any invalid route, i.e. routes not specified above, will be redirected to the root path - now error page.
     */
     {
       path: '/*',

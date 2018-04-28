@@ -19,10 +19,7 @@ export default {
 .small-nav ul li.is-active { border-top: 3px solid #FFDB42; }
 .small-nav li a { color: white; text-align: center; text-decoration: none; }
 
-.tooltip {
-  display: block !important;
-  z-index: 10000;
-}
+.tooltip { display: block !important; z-index: 10000; }
 .tooltip .tooltip-inner {
   background: rgba(0,0,0,0.6);
   color: white;

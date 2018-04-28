@@ -34,9 +34,6 @@ export default {
         .then((response) => {
           this.chartData = response.data
         }, (error) => {
-          /*
-          TODO: Display error to user.
-          */
           console.log('ERROR ' + error)
         })
     }

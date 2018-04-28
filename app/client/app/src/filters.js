@@ -2,9 +2,6 @@
 // https://vuejs.org/v2/guide/filters.html
 
 import Vue from 'vue'
-import { JsonPropertyFilter } from "json-property-filter"
-
-const filter = new JsonPropertyFilter(["**"]);
 
 let filters = {
 

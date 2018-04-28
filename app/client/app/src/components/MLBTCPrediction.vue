@@ -3,7 +3,7 @@
 
       <div class="btc-ml">
           <img class="btc-ml-icon" src="../assets/img/Bitcoin-icon.png"/>
-          <p class="btc-ml-title">Predicted close price ({{getDate()}})</p>
+          <p class="btc-ml-title">Predicted close price ({{getDate}})</p>
           <p class="btc-ml-subtitle">Updated Daily</p>
           <p class="btc-ml-body">{{ prediction }}</p>
       </div>
@@ -19,8 +19,12 @@ export default {
     prediction: ''
   }),
   created () {
-    this.getDate()
     this.getPrediction()
+  },
+  computed: {
+    getDate () {
+      return new Date().toJSON().slice(0, 10)
+    }
   },
   methods: {
     getPrediction () {
@@ -28,12 +32,9 @@ export default {
         .then((response) => {
           this.prediction = response.data.prediction
         }, (error) => {
-          this.prediction = 'ERROR'
+          this.prediction = 'Error'
           console.log('ERROR ' + error)
         })
-    },
-    getDate () {
-      return new Date().toJSON().slice(0, 10)
     }
   }
 }

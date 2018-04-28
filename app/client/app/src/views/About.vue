@@ -42,7 +42,9 @@
 </template>
 
 <script>
-
+/*
+The about view contains information and resources concerning this applied project.
+ */
 export default {
   name: 'About'
 }
@@ -51,10 +53,7 @@ export default {
 
 .spacer { clear: both; height: 30px; display: block; }
 .spacer-small { clear: both; height: 10px; display: block; }
-.team{
-    width: 175px;
-    margin: 0 auto;
-}
+.team { width: 175px; margin: 0 auto; }
 .repo{ margin: 0 auto; display: block; }
 .repo, .repo img{ height: 35px; width: 35px; }
 .team h3{
@@ -72,15 +71,8 @@ export default {
  height: 75px;
  width: 75px;
 }
-.team .member a{
- height: 75px;
- width: 75px;
-}
-.team-info{
-    width:75px;
-    display: block;
-    margin: 0 auto;
-}
+.team .member a{ height: 75px; width: 75px; }
+.team-info{ width:75px; display: block; margin: 0 auto; }
 .team-info img{
  -webkit-border-radius: 50%;
  -moz-border-radius: 50%;
@@ -88,23 +80,11 @@ export default {
  height: 75px;
  width: 75px;
 }
-.team-info a{
- height: 75px;
- width: 75px;
-}
-.team .member .vertical-space{
-    width: calc(100% - 150px);
-}
-.right{
-    float:right;
-}
-.left{
-    float: left;
-}
-.tooltip {
-  display: block !important;
-  z-index: 10000;
-}
+.team-info a{ height: 75px; width: 75px; }
+.team .member .vertical-space{ width: calc(100% - 150px); }
+.right{ float:right; }
+.left{ float: left; }
+.tooltip { display: block !important; z-index: 10000; }
 .tooltip .tooltip-inner {
   background: rgba(0,0,0,0.6);
   color: white;

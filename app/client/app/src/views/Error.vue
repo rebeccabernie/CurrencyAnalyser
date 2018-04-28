@@ -7,23 +7,11 @@
 </template>
 
 <script>
-
+/*
+The error view is the page that will alert the user that they have entered an invalid subdomain.
+ */
 export default {
-  name: 'Error',
-  data () {
-    return {
-    }
-  },
-  computed: {
-  },
-  methods: {
-    someMethod () {
-      // Do Something
-    }
-  },
-  mounted () {
-    // Do something
-  }
+  name: 'Error'
 }
 </script>
 
