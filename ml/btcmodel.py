@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import date, timedelta
-from model import build_model
+from ml.model import build_model
 import numpy as np
 import pymongo, config
 
@@ -45,9 +45,8 @@ class BTCModel:
         np.random.seed(202)
         # Initialise model architecture and train model with training set.
         self.bt_model = build_model(LSTM_training_inputs, output_size=self.pred_range, neurons = 20)
-        """ TODO: change epochs to 25 """
         self.bt_model.fit(LSTM_training_inputs[:-self.pred_range], LSTM_training_outputs, 
-                                    epochs=5, batch_size=1, verbose=2, shuffle=True)
+                                    epochs=25, batch_size=1, verbose=2, shuffle=True)
    
     def predict(self, day):
         # Aquire and prepare data.

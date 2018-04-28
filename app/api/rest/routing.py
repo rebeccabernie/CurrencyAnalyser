@@ -10,7 +10,7 @@ http://flask-restplus.readthedocs.io/en/stable/
 from flask import request
 from app.api import api_rest
 from flask_restplus import Resource, abort, fields
-from app.api.rest.base import BaseResource, rest_resource
+from app.api.rest.base import BaseResource, SecureResource, rest_resource
 from config import REDIS_URL, REDIS_CHAN_GRAPH, REDIS_CHAN_LIST, CURR_CODES, REDIS_CHAN_ML_BTC_GRAPH, REDIS_CHAN_ML_BTC
 
 import redis,json,threading,requests
@@ -77,12 +77,13 @@ class ResourceTwo(BaseResource):
         return data
 
 @rest_resource
-class ResourceThree(BaseResource):
+class ResourceThree(SecureResource):
     """ /api/currencies/latest/graph """
     endpoints = ['/latest/graph/<string:curr_one>/<string:curr_two>']
 
     @api_rest.doc('get_latest_graph_two')
     @api_rest.response(404, 'Not Found', error)
+    @api_rest.response(400, 'Not Found', error)
     @api_rest.response(200, 'Success', cgraph)
     def get(self, curr_one, curr_two):
         temp = r.get(REDIS_CHAN_GRAPH)

@@ -15,6 +15,8 @@ heroku create [name]
 
 heroku addons:create redistogo
 
+heroku addons: create mongolab
+
 heroku config:set FLASK_CONFIG=Production
 
 heroku config:set SECRET=SECRETKEY
@@ -40,9 +42,11 @@ git commit -m "[commit msg]"
 git push heroku master
 
 heroku ps:scale worker=1
+
+heroku ps:scale urgentworker=1
 ```
 
-## NOTES FOR DISS
+## Structure
 
 - The web application consists of two seperate blueprints resgistered to the following URLs prefixes/subdomains: "" and "/api"
 - [Blueprints](http://flask.pocoo.org/docs/0.12/blueprints/) define a collection of behaviours, views, templates, static files and can be then used anywhere in the application.
@@ -154,16 +158,35 @@ RQ is currently unsupported by windows, or any operating system that doesn't sup
 
 The schedular doesn't consistently call our pull data method every *n* seconds. Instead, it pulls the data in *n* seconds plus the time taken to carry out the said method. 
 
+To implement this, we calculated how many seconds, *n*, until the next minute/day and put the thread to sleep for *n* seconds. The following is an example show code executing consitently every minute.
+
+```python
+# <dataworker.py>
+
+# Adapted from: https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python/38317060
+import time
+
+tic = 60.0
+
+starttime=time.time()
+
+while True:
+  # Pull data
+  time.sleep(60.0 - ((time.time() - starttime) % 60.0))
+```
+
+Similarly, to schedule when these loops start - the seconds until the next new minute and the next 3am is calculated and the thread will sleep for those amount of seconds.
+
 ## Web app
 
 ### Dashboard page
 
 The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will consist of cards to display the:
 
-- most recent currency data in an easy to read graph. Two currencies can be selected at one time.
-- most recent currency data in a list. Only the most popular currencies will be featured in this list.
-- ML bitcoin prediction.
-- ML bitcoin prediction graph with most recent past predictions and actual predictions?
+- [x] most recent currency data in an easy to read graph. Two currencies can be selected at one time.
+- [x] most recent currency data in a list. Only the most popular currencies will be featured in this list.
+- [x] ML bitcoin prediction.
+- [x] ML bitcoin prediction graph with most recent past predictions and actual predictions?
 
 The recent currency data will be polled/streamed from the server and will be filtered to fit the purpose of different cards.
 
@@ -230,11 +253,9 @@ ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 
 ### About page
 
-- Team
-
-### RSS feed page???
-
-Bitcoin/cryptocurrency data
+- Team: names, github links, etc.
+- About web application.
+- Repositiory link.
 
 ## References
 
@@ -260,6 +281,8 @@ https://router.vuejs.org/en/essentials/dynamic-matching.html
 
 https://router.vuejs.org/en/essentials/named-routes.html
 
+https://stephennewey.com/realtime-websites-with-flask/
+
 https://router.vuejs.org/en/essentials/getting-started.html
 
 https://codepen.io/ztrayner/pen/VeJMRL
@@ -268,9 +291,13 @@ https://codepen.io/anon/pen/ppGeKJ?editors=1010
 
 https://github.com/apertureless/vue-chartjs
 
+ https://www.html5rocks.com/en/tutorials/eventsource/basics/
+
 https://flask-restful.readthedocs.io/en/latest/quickstart.html#resourceful-routing
 
 http://flask.pocoo.org/docs/0.12/blueprints/
+
+https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python/38317060
 
 https://stephennewey.com/realtime-websites-with-flask/
 

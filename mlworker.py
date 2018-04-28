@@ -1,6 +1,13 @@
-import btcmodel, time, config, redis, pymongo
+""" 
+Script that pulls market data, builds a model and predicts the current day's closing price.
+Every day at 3am, yesterday's actual closing price is pulled and used to further train the model.
+The data is then saved to the database and published to the api via redis. The now current day's 
+close price can be predicted.
+"""
+import time, config, redis, pymongo
 from datetime import date, timedelta, datetime
 from pymongo import MongoClient
+from ml import btcmodel
 
 # Set up database connections
 r = redis.from_url(config.REDIS_URL)

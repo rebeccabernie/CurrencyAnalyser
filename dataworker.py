@@ -1,3 +1,10 @@
+""" 
+Script that pulls prices and rates of specified currencies using forex python.
+The data is then formatted and published via redis. 
+It would be cumbersome to query and reformat the query result with every api request, 
+especially since the requests are rarely dependant on external inputs.
+this way the preformatted data can be accessed easily and quickly by redis every request.
+"""
 import redis, json, time, datetime, config
 from forex_python.converter import CurrencyRates
 from forex_python.converter import CurrencyCodes
