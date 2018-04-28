@@ -68,8 +68,91 @@ heroku ps:scale urgentworker=1
 - Initially, the api was act as the DB hander or DAO (Data Access Object), controlling and encapsulating actual communications to MongoDB. The scripts would publish the new values and the api listener threads would handle the data received. However during the implementation of this concept for handling data, we came upon the realization that the API would be unnecessarily dealing with Mongo. The web app only deals with the most recent data and could be optimized by being pre-formatted to suit the web application's data format requirements. The data from the API to the web application will be requested and constantly refreshed for the most recent currency data. It would be cumbersome to query Mongo and reformat the query result with every request. The scripts were already communicating with the API via Redis, it seemed optimal that the scripts handle mongo and use Redis solely to share the most recent data with the API. This would subsequently simplify the code and reduce the dependancies the scripts have on one another, e.g. the worker relies on the web application to save the data published, the worker needs to be ran to allow a clean shutdown of the web application. The web application's Heroku CPU allocation will no longer be competing with listener threads, and the management of Mongo will be abstracted from the API rather than delegated to it.
 - As the ML algorithm developed we realized it would no longer require the live currency data, meaning it was no longer neccessary to save the next to real time currency data to Mongo. Now this data will soley be used for live currency data displayed on web application. 
 
+## Web app
 
-## Mongo
+### Dashboard page
+
+The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will consist of cards to display the:
+
+- [x] most recent currency data in an easy to read graph. Two currencies can be selected at one time.
+- [x] most recent currency data in a list. Only the most popular currencies will be featured in this list.
+- [x] ML bitcoin prediction.
+- [x] ML bitcoin prediction graph with most recent past predictions and actual predictions?
+
+The recent currency data will be polled/streamed from the server and will be filtered to fit the purpose of different cards.
+
+The graph card will be filtered using the default currency selections. This will be refiltered once a user selects new
+filters and when the data has been polled. 
+
+The most popular will be filtered using a static list of relevant/well-known currencies. 
+
+Depending on how often the ML predictions will be updated, the data will be updated or requested once.
+
+Data will be formatted python or vue side to adhere to the following format for the use of chart js:
+
+```
+ chartData : {
+        labels: [String],
+        datasets: [
+          {
+            label: String,
+            backgroundColor: String,
+            data: [number]
+          },
+          {
+            label: String,
+            backgroundColor: String,
+            data: [number]
+          }
+        ]
+      }
+```
+
+E.g.
+
+```
+ chartData : {
+        labels: ['5:34', '5:36'],
+        datasets: [
+          {
+            label: 'EURO',
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            data: [2000.68, 2000.71]
+          },
+          {
+            label: 'BITCOIN',
+            backgroundColor: 'rgba(169,169,169, 0.5)',
+            data: [4467.05, 4467.93]
+          }
+        ]
+      }
+```
+
+### About page
+
+- Team: names, github links, etc.
+- About web application.
+- Repositiory link.
+
+## Future ambitions
+
+SEEs
+
+ref: https://stephennewey.com/realtime-websites-with-flask/
+
+Why Server-Sent Event(SEE) Stream?
+Websockets(WSs) are often favoured over SEEs as they provide a protocol surpassing that of SEEs. 
+WSs provide bi-directional, full-duplex communication between the server and client.
+However, this is only significant when two way communication is required.
+For data that does not need to be sent from the client, traditional HTTP SEEs, that do not implement full-duplex communication and the subsequent new WS servers to handle this connection, are ideal.
+Also, SSEs have a number of functionalities that WSs lack, such as automatic reconnection.
+ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
+
+## Notes
+
+*The following are **rough** notes that were a product of development.*
+
+### Mongo
 
 [Heroku MongoLab Sandbox](https://elements.heroku.com/addons/mongolab) (the only free version available as a Heroku addon) has only 496 MB worth of storage. Constantly updating Currency prices being saved to the database accumulates a vast amount of space. 
 
@@ -83,7 +166,7 @@ What we need to save:
 
 UPDATE: we will no longer be saving the next to real time currency data to mongo. It is no longer required to use this data for the ML. Now this data will soley be used for live currency data displayed on web app.
 
-## Background Scripts
+### Background Scripts
 
 1. pulling currency data.
 2. removing data.
@@ -176,86 +259,6 @@ while True:
 ```
 
 Similarly, to schedule when these loops start - the seconds until the next new minute and the next 3am is calculated and the thread will sleep for those amount of seconds.
-
-## Web app
-
-### Dashboard page
-
-The dashboard view contains cards with the currency data accumulated from the data scraping and analytics. The cards will consist of cards to display the:
-
-- [x] most recent currency data in an easy to read graph. Two currencies can be selected at one time.
-- [x] most recent currency data in a list. Only the most popular currencies will be featured in this list.
-- [x] ML bitcoin prediction.
-- [x] ML bitcoin prediction graph with most recent past predictions and actual predictions?
-
-The recent currency data will be polled/streamed from the server and will be filtered to fit the purpose of different cards.
-
-The graph card will be filtered using the default currency selections. This will be refiltered once a user selects new
-filters and when the data has been polled. 
-
-The most popular will be filtered using a static list of relevant/well-known currencies. 
-
-Depending on how often the ML predictions will be updated, the data will be updated or requested once.
-
-Data will be formatted python or vue side to adhere to the following format for the use of chart js:
-
-```
- chartData : {
-        labels: [String],
-        datasets: [
-          {
-            label: String,
-            backgroundColor: String,
-            data: [number]
-          },
-          {
-            label: String,
-            backgroundColor: String,
-            data: [number]
-          }
-        ]
-      }
-```
-
-E.g.
-
-```
- chartData : {
-        labels: ['5:34', '5:36'],
-        datasets: [
-          {
-            label: 'EURO',
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
-            data: [2000.68, 2000.71]
-          },
-          {
-            label: 'BITCOIN',
-            backgroundColor: 'rgba(169,169,169, 0.5)',
-            data: [4467.05, 4467.93]
-          }
-        ]
-      }
-```
-
-# Future ambitions
-
-SEEs
-
-ref: https://stephennewey.com/realtime-websites-with-flask/
-
-Why Server-Sent Event(SEE) Stream?
-Websockets(WSs) are often favoured over SEEs as they provide a protocol surpassing that of SEEs. 
-WSs provide bi-directional, full-duplex communication between the server and client.
-However, this is only significant when two way communication is required.
-For data that does not need to be sent from the client, traditional HTTP SEEs, that do not implement full-duplex communication and the subsequent new WS servers to handle this connection, are ideal.
-Also, SSEs have a number of functionalities that WSs lack, such as automatic reconnection.
-ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
-
-### About page
-
-- Team: names, github links, etc.
-- About web application.
-- Repositiory link.
 
 ## References
 
