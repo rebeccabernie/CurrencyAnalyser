@@ -1,4 +1,9 @@
-# Notes
+# 4th Year Applied Project
+## *An Analysis of the Viability and Volatility of Cryptocurrency* with Currency Analyser Webapp
+
+> Module: Applied Project and Minor Dissertation / 4th Year Software Development   
+> Team: Rebecca Kane, Tara O'Kelly (Group 3.2)  
+> Supervisor: Dr Ian McLoughlin  
 
 ## Deployment
 
@@ -148,7 +153,7 @@ For data that does not need to be sent from the client, traditional HTTP SEEs, t
 Also, SSEs have a number of functionalities that WSs lack, such as automatic reconnection.
 ref: https://www.html5rocks.com/en/tutorials/eventsource/basics/
 
-## Notes
+## Rough Work
 
 *The following are **rough** notes that were a product of development.*
 
