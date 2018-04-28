@@ -9,8 +9,8 @@ class BTCModel:
     pred_range, window_len = 1, 1
     prediction, predict_inputs, predict_data = None, None, None
 
-    def __init__(self, m, r):
-        self.m, self.r = m, r
+    def __init__(self, db, r):
+        self.db, self.r = db, r
         # Pull past data, starting from 01/01/2016 (Data is inconsistent before then) -> two days ago.
         # Bitcoin market info: "Date", "Open", "High", "Low", "Close", "Volume", "Market Cap". 
         btc_past = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20160101&end="+(date.today() - timedelta(2)).strftime("%Y%m%d"))[0] 
@@ -82,7 +82,7 @@ class BTCModel:
                 predict_outputs = [[(btc_day.iloc[0]['Close']/self.predict_data.iloc[0]['bt_Close'])-1]]
                 predict_outputs = np.array(predict_outputs)
                 self.bt_model.train_on_batch(self.predict_inputs, predict_outputs)
-                self.m.db.ml.insert({
+                self.db.ml.insert({
                     "date" : date.today().strftime("%Y-%m-%d"),
                     "currency" : "btc",
                     "prediction" : round(self.prediction[0][0], 2),
@@ -97,7 +97,7 @@ class BTCModel:
                 { 'label': 'actual', 'backgroundColor': 'rgba(186, 65, 67, 0.75)', 'data': [] }
             ]
         }
-        cursor = self.m.db.ml.find().sort('date', pymongo.DESCENDING).limit(20)
+        cursor = self.db.ml.find().sort('date', pymongo.DESCENDING).limit(20)
         for doc in cursor:
             chart_data['labels'].insert(0, doc['date'])
             chart_data['datasets'][0]['data'].insert(0, doc['prediction'])

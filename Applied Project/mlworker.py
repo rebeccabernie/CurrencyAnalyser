@@ -12,12 +12,13 @@ from ml import btcmodel
 # Set up database connections
 r = redis.from_url(config.REDIS_URL)
 m = MongoClient(config.MONGO_URL)
+db = m.get_default_database()
 
 # Seconds in a day.
 tic = 86400
 
 # Create and build model.
-btc = btcmodel.BTCModel(m, r)
+btc = btcmodel.BTCModel(db, r)
 
 # Predict today's close price and publish to redis.
 btc.predict((date.today() - timedelta(1)).strftime("%Y%m%d"))
