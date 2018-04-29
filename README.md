@@ -1,10 +1,14 @@
-# 4th Year Applied Project
-## *An Analysis of the Viability and Volatility of Cryptocurrency* with Currency Analyser Webapp
+# 4th Year Applied Project  
+## *An Analysis of the Viability and Volatility of Cryptocurrency* with Currency Analyser Web Application  
 
 > Module: Applied Project and Minor Dissertation / 4th Year Software Development   
 > Team: Rebecca Kane, Tara O'Kelly (Group 3.2)  
 > Supervisor: Dr Ian McLoughlin  
   
+
+**Screencast**  
+A screencast of the Currency Analyser web application can be viewed on Youtube, [here](https://www.youtube.com/watch?v=CYzFlVtJL5Y&feature=youtu.be).  
+The screencast can also be downloaded from this repository, [here](https://github.com/rebeccabernie/CurrencyAnalyser/blob/master/Screencast.mp4).  
   
 *Jump to*  
 [Project Description](#project-description)  
