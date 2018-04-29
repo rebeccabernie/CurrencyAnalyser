@@ -13,14 +13,12 @@ class Config(object):
 class Development(Config):
     MODE = 'Development'
     DEBUG = True
-    SECRET_KEY = 'SuperSecretKey'
 
 
 class Production(Config):
     MODE = 'Production'
     DEBUG = False
     PRODUCTION = True
-    # SECRET_KEY = os.environ['SECRET_KEY']
 
 
 # Set FLASK_CONFIG env to 'Production' or 'Development' to set Config
