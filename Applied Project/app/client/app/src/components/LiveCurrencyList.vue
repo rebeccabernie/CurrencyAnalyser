@@ -79,9 +79,9 @@ export default {
   z-index: 10000;
 }
 .tooltip .tooltip-inner {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.75);
   color: white;
-  border-radius: 16px;
+  border-radius: 5px;
   padding: 5px 10px 4px;
 }
 .tooltip .tooltip-arrow {
@@ -90,7 +90,7 @@ export default {
   border-style: solid;
   position: absolute;
   margin: 5px;
-  border-color: rgba(0,0,0,0.6);
+  border-color: rgba(0,0,0,0.75);
 }
 .tooltip[x-placement^="top"] { margin-bottom: 5px; }
 .tooltip[x-placement^="top"] .tooltip-arrow {

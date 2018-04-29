@@ -46,7 +46,7 @@ class BTCModel:
         # Initialise model architecture and train model with training set.
         self.bt_model = build_model(LSTM_training_inputs, output_size=self.pred_range, neurons = 20)
         self.bt_model.fit(LSTM_training_inputs[:-self.pred_range], LSTM_training_outputs, 
-                                    epochs=25, batch_size=1, verbose=2, shuffle=True)
+                                    epochs=20, batch_size=1, verbose=2, shuffle=True)
    
     def predict(self, day):
         # Aquire and prepare data.
@@ -75,7 +75,8 @@ class BTCModel:
         return self.prediction
     
     def train(self):
-        day = (date.today() - timedelta(1)).strftime("%Y%m%d")
+        d = date.today() - timedelta(1)
+        day, day_format = d.strftime("%Y%m%d"), d.strftime("%Y-%m-%d")
         btc_day = pd.read_html("https://coinmarketcap.com/currencies/bitcoin/historical-data/?start="+day+"&end="+day)[0]
         if btc_day.iloc[0]['Date'] != 'No data was found for the selected time period.':
             if (self.prediction != None):
@@ -83,7 +84,7 @@ class BTCModel:
                 predict_outputs = np.array(predict_outputs)
                 self.bt_model.train_on_batch(self.predict_inputs, predict_outputs)
                 self.db.ml.insert({
-                    "date" : date.today().strftime("%Y-%m-%d"),
+                    "date" : day_format,
                     "currency" : "btc",
                     "prediction" : round(self.prediction[0][0], 2),
                     "actual" : round(btc_day.iloc[0]['Close'], 2)

@@ -30,7 +30,7 @@ def build_model(inputs, output_size, neurons, activ_func="linear",
     model.add(LSTM(neurons, return_sequences=True, input_shape=(inputs.shape[1], inputs.shape[2])))
     
     # Adapetd from: https://stackoverflow.com/questions/40331510/how-to-stack-multiple-lstm-in-keras
-    # model.add(LSTM(neurons, return_sequences=True))
+    model.add(LSTM(neurons, return_sequences=True))
     model.add(LSTM(neurons))
     
     model.add(Dropout(dropout))
