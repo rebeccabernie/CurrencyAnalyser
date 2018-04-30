@@ -19,12 +19,12 @@ r = redis.from_url(REDIS_URL)
 
 # Response Models.
 pred = api_rest.model('Prediction', {
-    'prediction': fields.String(description='prediction'),
+    'prediction': fields.Float(description='prediction'),
 })
 cdataset = api_rest.model('CurrencyData', {
     'label': fields.String(description='currency'),
     'backgroundColor': fields.String(description='color'),
-    'data': fields.List(fields.String, description='prices')
+    'data': fields.List(fields.Float, description='prices')
 })
 cgraph = api_rest.model('CurrencyGraph', {
     'labels': fields.List(fields.String, description='dates'),
@@ -34,7 +34,7 @@ currency = api_rest.model('Currency', {
     'code': fields.String(description='currencycode'),
     'name': fields.String(description='currency'),
     'symbol': fields.String(description='symbol'),
-    'data': fields.String(description='rate')
+    'data': fields.Float(description='rate')
 })
 clist = api_rest.model('CurrencyList', {
     'currencies': fields.List(fields.String, description='currencies')
@@ -46,7 +46,7 @@ error = api_rest.model('Error', {
     'error': fields.String(description='error'),
 })
 
-# 
+# Endpoint classes.
 @rest_resource
 class ResourceOne(BaseResource):
     """ /api/currencies/list """
@@ -83,7 +83,7 @@ class ResourceThree(SecureResource):
 
     @api_rest.doc('get_latest_graph_two')
     @api_rest.response(404, 'Not Found', error)
-    @api_rest.response(400, 'Not Found', error)
+    @api_rest.response(400, 'Bad Request', error)
     @api_rest.response(200, 'Success', cgraph)
     def get(self, curr_one, curr_two):
         temp = r.get(REDIS_CHAN_GRAPH)

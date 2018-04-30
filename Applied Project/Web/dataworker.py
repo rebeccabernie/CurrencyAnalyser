@@ -52,11 +52,11 @@ def pullData():
     if chart_data['datasets']:
         for i, code in enumerate(config.CURR_CODES):
             if code == 'BTC':
-                price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
-                rate = '{0:.5f}'.format(b.convert_to_btc(1, config.LOCAL_CURR_CODE))
+                price = round(b.get_latest_price(config.LOCAL_CURR_CODE),2)
+                rate = round(b.convert_to_btc(1, config.LOCAL_CURR_CODE),5)
             else:
-                price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
-                rate = '{0:.5f}'.format(rates[chart_data['datasets'][i]['label']])
+                price = round(c.get_rate(code, config.LOCAL_CURR_CODE),2)
+                rate = round(rates[chart_data['datasets'][i]['label']],5)
             chart_data['datasets'][i]['data'].append(price)
             latest_currencies['currencies'][i]['data'] = rate
             if pop:
@@ -68,13 +68,13 @@ def pullData():
             if code == 'BTC':
                 symbol = b.get_symbol()
                 name = 'Bitcoin'
-                price = '{0:.5f}'.format(b.get_latest_price(config.LOCAL_CURR_CODE))
-                rate = '{0:.5f}'.format(b.convert_to_btc(1, config.LOCAL_CURR_CODE))
+                price = round(b.get_latest_price(config.LOCAL_CURR_CODE),2)
+                rate = round(b.convert_to_btc(1, config.LOCAL_CURR_CODE),5)
             else:
                 name = co.get_currency_name(code)
                 symbol = co.get_symbol(code)
-                price = '{0:.5f}'.format(c.get_rate(code, config.LOCAL_CURR_CODE))
-                rate = '{0:.5f}'.format(rates[code])
+                price = round(c.get_rate(code, config.LOCAL_CURR_CODE),2)
+                rate = round(rates[code], 5)
             chart_data['datasets'].append({
                 'label': code,
                 'backgroundColor': config.CURR_COLORS[i],
