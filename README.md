@@ -7,7 +7,7 @@
   
 
 **Screencast**  
-A screencast of the Currency Analyser web application can be viewed on Youtube, [here](https://youtu.be/3TdaM4tInvI).  
+A screencast of the Currency Analyser web application can be viewed on Youtube, [here](https://www.youtube.com/edit?o=U&video_id=lhCsPT0ItoE).  
 The screencast can also be downloaded from this repository, [here](https://github.com/rebeccabernie/CurrencyAnalyser/blob/master/Screencast.mp4).  
   
 *Jump to*  
@@ -35,7 +35,7 @@ Contrasting the previous chapter, this section outlines how volatile cryptocurre
 ### Applied Aspect
 Our Currency Analyser web application is designed to be used by anyone with any level of knowledge of cryptocurrencies, however it is advised that the user has read and understood Chapter 2 and 3.  
 Our application provides the user with up-to-date prices of Bitcoin and some major traditional currencies. The most recent values are plotted on a graph, which is updated every 30 seconds.  
-There is also a prediction feature, which uses the *Long Short Term Memory* algorithm to estimate the closing price of Bitcoin for the current day. Of course, this model is not ideal for long term prediction and while it can be somewhat accurate for short term prediction, it should not be relied upon due to the volatility of Bitcoin prices.
+There is also a prediction feature, which uses the *Long Short Term Memory* algorithm to estimate the closing price of Bitcoin for the current day. Of course, this model is not ideal for long term prediction and while it can be somewhat accurate for short term prediction, it should not be relied upon due to the volatility of Bitcoin prices.  
 
 ## Team Partition
 Original Team: John Glynn, Rebecca Kane, Tara O'Kelly  
