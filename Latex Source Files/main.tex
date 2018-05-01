@@ -1,0 +1,74 @@
+% Dissertation template adapted from https://github.com/templates-iml/final-year-project-template
+
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{minted}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{gensymb}
+\usepackage{lmodern}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{upquote}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usetikzlibrary{mindmap, shadows, shapes, arrows, positioning}
+
+\newcommand{\projecttitle}{An Analysis of the Viability and Volatility of Cryptocurrency}
+\newcommand{\projectauthor}{Rebecca Kane \\[0.2cm] Tara O'Kelly}
+\newcommand{\projectadvisor}{Dr Ian McLoughlin}
+\newcommand{\projectprogramme}{B.Sc.(Hons) in Software Development}
+\newcommand{\projectdate}{17 April 2018}
+
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+%\addbibresource{bibliography.bib}
+
+% Adapted from template
+\begin{document}
+  \begin{titlepage}
+  \centering
+    \begin{minipage}[t][6cm]{\textwidth}
+      \centering
+      \rule{\linewidth}{0.5mm} \\[0.4cm]
+      { \LARGE \bfseries \projecttitle \\[0.4cm] }
+      \rule{\linewidth}{0.5mm} \\[0.8cm]
+    \end{minipage}
+    
+    \begin{minipage}[t][6.5cm]{\textwidth}
+      \centering
+      \textbf{\projectauthor}\\[0.5cm]
+      \projectprogramme
+    \end{minipage}
+  
+    \begin{minipage}[t][1cm]{\textwidth}
+      \centering
+      \textsc{\projectdate}
+    \end{minipage}
+      
+    \begin{minipage}[t][3cm]{\textwidth}
+      \centering
+      \textbf{Final Year Applied Project and Dissertation}\\[0.3cm]
+      Advised by: \projectadvisor \\[0.1cm]
+      Department of Computer Science and Applied Physics\\
+      Galway-Mayo Institute of Technology (GMIT)
+    \end{minipage}
+% end adaptation from template
+  
+    \begin{center}    
+      \includegraphics[scale=0.5]{img/gmit.jpeg}
+    \end{center}
+  \end{titlepage}
+  \setcounter{page}{2}
+  \tableofcontents
+  \input{content.tex}
+  \bibliographystyle{ieeetr}
+  \bibliography{bibliography}
+\end{document}
