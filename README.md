@@ -7,7 +7,7 @@
   
 
 **Screencast**  
-A screencast of the Currency Analyser web application can be viewed on Youtube, [here](https://www.youtube.com/watch?v=CYzFlVtJL5Y&feature=youtu.be).  
+A screencast of the Currency Analyser web application can be viewed on Youtube, [here](https://youtu.be/3TdaM4tInvI).  
 The screencast can also be downloaded from this repository, [here](https://github.com/rebeccabernie/CurrencyAnalyser/blob/master/Screencast.mp4).  
   
 *Jump to*  
