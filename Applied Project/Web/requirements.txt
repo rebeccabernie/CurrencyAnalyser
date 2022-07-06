@@ -16,7 +16,7 @@ gast==0.2.0
 grpcio==1.11.0
 gunicorn==19.7.1
 h5py==2.7.1
-html5lib==0.9999999
+html5lib==0.999999999
 idna==2.6
 isort==4.3.4
 itsdangerous==0.24
